@@ -1,0 +1,35 @@
+{
+  "name": "upcast-api",
+  "version": "1.0.0",
+  "description": "API Restful de plataforma de podcasts 'UPCAST'",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "lint": "standard --fix"
+  },
+  "keywords": [
+    "API",
+    "API RESTFUL",
+    "RESTFUL",
+    "PODCAST",
+    "UPCAST"
+  ],
+  "author": "William Augusto",
+  "license": "ISC",
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0",
+    "standard": "^16.0.3"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0",
+    "get-audio-duration": "^2.0.3",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.2.5",
+    "nanoid": "^3.1.22",
+    "nodemailer": "^6.5.0",
+    "sequelize": "^6.6.2"
+  }
+}
