@@ -22,7 +22,8 @@ module.exports = {
       },
       url_photo: {
         type: Sequelize.STRING(60),
-        allowNull: true
+        allowNull: true,
+        defaultValue: '/image/user/default.svg'
       },
       role: {
         type: Sequelize.TINYINT,

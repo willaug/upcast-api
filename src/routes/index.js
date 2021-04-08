@@ -1,8 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res) => {
-  res.json({ welcome: 'Olá, bem vindo(a) a minha API!' })
-})
+const UserController = require('../controllers/UserController')
+
+// users
+router.get('/user', UserController.index)
+router.post('/user', UserController.create)
 
 module.exports = router
