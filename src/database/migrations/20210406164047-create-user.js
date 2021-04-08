@@ -25,7 +25,7 @@ module.exports = {
         allowNull: true
       },
       role: {
-        type: Sequelize.BOOLEAN,
+        type: Sequelize.TINYINT,
         allowNull: false,
         defaultValue: 0
       },

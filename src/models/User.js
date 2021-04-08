@@ -8,11 +8,19 @@ class User extends Model {
         primaryKey: true
       },
       username: DataTypes.STRING(40),
-      email: DataTypes.STRING(70),
+      email: {
+        type: DataTypes.STRING(70),
+        unique: true
+      },
       password: DataTypes.STRING(120),
       url_photo: DataTypes.STRING(60),
       role: DataTypes.TINYINT()
     }, { sequelize, tableName: 'user' })
+  }
+
+  static associate (models) {
+    this.hasMany(models.ResetPassword, { foreignKey: 'user_uid', as: 'reset_password' })
+    this.belongsToMany(models.Show, { foreignKey: 'user_uid', through: 'follow', as: 'show' })
   }
 }
 

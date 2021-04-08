@@ -14,11 +14,11 @@ module.exports = {
         allowNull: false
       },
       url_audio: {
-        type: Sequelize.STRING(60),
+        type: Sequelize.STRING(80),
         allowNull: false
       },
       url_thumbnail: {
-        type: Sequelize.STRING(60)
+        type: Sequelize.STRING(80)
       },
       description: {
         type: Sequelize.TEXT
