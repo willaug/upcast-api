@@ -17,7 +17,7 @@ class Show extends Model {
     this.hasMany(models.Episode, { foreignKey: 'show_uid', as: 'episode' })
     this.belongsTo(models.User, { foreignKey: 'user_uid', as: 'user' })
     this.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' })
-    this.belongsToMany(models.User, { foreignKey: 'show_uid', through: 'follow', as: 'user' })
+    this.belongsToMany(models.User, { foreignKey: 'show_uid', through: 'follow', as: 'followed' })
   }
 }
 

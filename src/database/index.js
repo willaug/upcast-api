@@ -1,6 +1,5 @@
 const Sequelize = require('sequelize')
 const DB = require('../config/database')
-const connection = new Sequelize(DB)
 
 const User = require('../models/User')
 const Playlist = require('../models/Playlist')
@@ -8,6 +7,8 @@ const Episode = require('../models/Episode')
 const Category = require('../models/Category')
 const ResetPassword = require('../models/ResetPassword')
 const Show = require('../models/Show')
+
+const connection = new Sequelize(DB)
 
 User.init(connection)
 Show.init(connection)
