@@ -19,7 +19,7 @@ module.exports = {
       expiration: {
         type: 'TIMESTAMP',
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP + INTERVAL 12 HOUR') // test
+        defaultValue: Sequelize.literal('TIMESTAMPADD(HOUR, 12, CURRENT_TIMESTAMP)')
       },
       ...Timestamp
     })
