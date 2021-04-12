@@ -4,11 +4,11 @@ class ResetPassword extends Model {
   static init (sequelize) {
     super.init({
       uid: {
-        type: DataTypes.CHAR(36),
+        type: DataTypes.CHAR(50),
         primaryKey: true
       },
       used: DataTypes.TINYINT
-    }, { sequelize, tableName: 'reset_password' })
+    }, { sequelize, tableName: 'password_reset' })
   }
 
   static associate (models) {

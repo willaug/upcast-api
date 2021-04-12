@@ -5,7 +5,7 @@ const UserUid = require('../defaultFields/userUid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('reset_password', {
+    await queryInterface.createTable('password_reset', {
       uid: {
         type: Sequelize.CHAR(50),
         primaryKey: true
@@ -25,7 +25,7 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('reset_password')
+    await queryInterface.dropTable('password_reset')
   }
 }
 

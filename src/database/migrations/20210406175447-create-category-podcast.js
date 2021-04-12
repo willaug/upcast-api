@@ -14,7 +14,8 @@ module.exports = {
       },
       slug: {
         type: Sequelize.STRING(60),
-        allowNull: false
+        allowNull: false,
+        unique: true
       }
     })
   },

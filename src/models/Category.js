@@ -8,7 +8,10 @@ class Category extends Model {
         primaryKey: true
       },
       name: DataTypes.STRING(45),
-      slug: DataTypes.STRING(60)
+      slug: {
+        type: DataTypes.STRING(60),
+        unique: true
+      }
     }, { sequelize, tableName: 'category' })
   }
 
