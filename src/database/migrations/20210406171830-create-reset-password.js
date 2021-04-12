@@ -7,7 +7,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('reset_password', {
       uid: {
-        type: Sequelize.CHAR(36),
+        type: Sequelize.CHAR(50),
         primaryKey: true
       },
       ...UserUid,
@@ -15,6 +15,11 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         allowNull: false,
         defaultValue: 0
+      },
+      expiration: {
+        type: 'TIMESTAMP',
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP + INTERVAL 12 HOUR') // test
       },
       ...Timestamp
     })

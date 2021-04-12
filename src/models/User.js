@@ -13,14 +13,13 @@ class User extends Model {
         unique: true
       },
       password: DataTypes.STRING(120),
-      url_photo: DataTypes.STRING(60),
-      role: DataTypes.TINYINT()
+      url_photo: DataTypes.STRING(60)
     }, { sequelize, tableName: 'user' })
   }
 
   static associate (models) {
     this.hasMany(models.ResetPassword, { foreignKey: 'user_uid', as: 'passwordReset' })
-    this.belongsToMany(models.Show, { foreignKey: 'user_uid', through: 'follow', as: 'show' })
+    this.belongsToMany(models.Show, { foreignKey: 'user_uid', through: 'follow_show', as: 'show' })
   }
 }
 

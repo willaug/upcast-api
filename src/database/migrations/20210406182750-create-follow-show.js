@@ -5,7 +5,7 @@ const ShowUid = require('../defaultFields/showUid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('follow', {
+    await queryInterface.createTable('follow_show', {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = {
     })
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('follow')
+    await queryInterface.dropTable('follow_show')
   }
 }
 
