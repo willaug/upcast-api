@@ -1,7 +1,7 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-const nanoid = NanoIDLength => require('../../config/config_nanoid')(NanoIDLength)
+const nanoid = NanoIDLength => require('../../config/configNanoid')(NanoIDLength)
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -14,7 +14,6 @@ module.exports = {
         username: 'Upcast',
         email: 'contact@upcast.com',
         password,
-        role: 1
       }
     ], {})
   },

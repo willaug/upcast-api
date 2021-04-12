@@ -9,6 +9,6 @@ router.patch('/playlists/:playlist_uid')
 router.delete('/playlists/:playlist_uid')
 
 router.post('/playlists/:playlist_uid/item')
-router.delete('/playlists/:playlist_uid/item')
+router.delete('/playlists/:playlist_uid/item/:item_playlist_id')
 
 module.exports = router
