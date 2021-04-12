@@ -1,8 +1,8 @@
 'use strict'
 
-const Uid = require('../default_fields/uid')
-const Timestamp = require('../default_fields/timestamp')
-const ShowUid = require('../default_fields/show_uid')
+const Uid = require('../defaultFields/uid')
+const Timestamp = require('../defaultFields/timestamp')
+const ShowUid = require('../defaultFields/showUid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

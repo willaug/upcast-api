@@ -1,7 +1,7 @@
 'use strict'
 
-const UserUid = require('../default_fields/user_uid')
-const ShowUid = require('../default_fields/show_uid')
+const UserUid = require('../defaultFields/userUid')
+const ShowUid = require('../defaultFields/showUid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

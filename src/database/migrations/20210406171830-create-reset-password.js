@@ -1,7 +1,7 @@
 'use strict'
 
-const Timestamp = require('../default_fields/timestamp')
-const UserUid = require('../default_fields/user_uid')
+const Timestamp = require('../defaultFields/timestamp')
+const UserUid = require('../defaultFields/userUid')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

@@ -1,7 +1,7 @@
 'use strict'
 
-const Uid = require('../default_fields/uid')
-const Timestamp = require('../default_fields/timestamp')
+const Uid = require('../defaultFields/uid')
+const Timestamp = require('../defaultFields/timestamp')
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -24,11 +24,6 @@ module.exports = {
         type: Sequelize.STRING(60),
         allowNull: true,
         defaultValue: '/image/user/default.svg'
-      },
-      role: {
-        type: Sequelize.TINYINT,
-        allowNull: false,
-        defaultValue: 0
       },
       ...Timestamp
     })
