@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const nanoid = NanoIDLength => require('../config/config_nanoid')(NanoIDLength)
+const nanoid = NanoIDLength => require('../config/configNanoid')(NanoIDLength)
 
 const User = require('../models/User')
 

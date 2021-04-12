@@ -19,7 +19,7 @@ class User extends Model {
   }
 
   static associate (models) {
-    this.hasMany(models.ResetPassword, { foreignKey: 'user_uid', as: 'reset_password' })
+    this.hasMany(models.ResetPassword, { foreignKey: 'user_uid', as: 'passwordReset' })
     this.belongsToMany(models.Show, { foreignKey: 'user_uid', through: 'follow', as: 'show' })
   }
 }

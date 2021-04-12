@@ -1,10 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const UserController = require('../controllers/UserController')
+const rest = require('./rest')
+const search = require('./search')
 
-// users
-router.get('/user', UserController.index)
-router.post('/user', UserController.create)
+router.use(rest)
+router.use(search)
 
 module.exports = router
