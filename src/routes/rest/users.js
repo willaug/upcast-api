@@ -10,6 +10,9 @@ router.get('/users/:user_uid')
 router.patch('/users/:user_uid')
 router.delete('/users/:user_uid')
 
+// playlists
+router.get('/users/:user_uid/playlists')
+
 // follow
 router.post('/users/:user_uid/follow')
 router.delete('/users/:user_uid/follow')
