@@ -64,10 +64,6 @@ class UserController {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
-
-  async findSettingsByToken (req, res) {
-    
-  }
 }
 
 module.exports = new UserController()

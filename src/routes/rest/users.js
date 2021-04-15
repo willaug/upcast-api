@@ -8,10 +8,6 @@ router.post('/users', User.create)
 
 router.get('/users/:userUid', User.findByUid)
 
-router.get('/users/account', User.findSettingsByToken)
-router.patch('/users/account')
-router.delete('/users/account')
-
 // playlists
 router.get('/users/:userUid/playlists')
 
