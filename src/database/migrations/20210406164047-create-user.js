@@ -8,7 +8,7 @@ module.exports = {
     await queryInterface.createTable('user', {
       ...Uid,
       username: {
-        type: Sequelize.STRING(40),
+        type: Sequelize.STRING(45),
         allowNull: false
       },
       email: {
