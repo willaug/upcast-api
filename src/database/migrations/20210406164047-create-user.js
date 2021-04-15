@@ -23,7 +23,7 @@ module.exports = {
       url_photo: {
         type: Sequelize.STRING(60),
         allowNull: true,
-        defaultValue: '/image/user/default.svg'
+        defaultValue: '/images/users/default.svg'
       },
       ...Timestamp
     })

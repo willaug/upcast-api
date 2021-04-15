@@ -21,7 +21,8 @@ module.exports = {
         allowNull: false
       },
       url_photo: {
-        type: Sequelize.STRING(60)
+        type: Sequelize.STRING(60),
+        defaultValue: '/images/shows/default.svg'
       },
       description: {
         type: Sequelize.TEXT

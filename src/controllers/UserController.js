@@ -12,7 +12,7 @@ class UserController {
 
       return res.status(200).json(users)
     } catch {
-      return res.status(500).json('Erro interno no servidor!')
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
 
@@ -41,7 +41,7 @@ class UserController {
 
       return res.status(201).json(`Seja bem-vindo(a) ${newUser.username}`)
     } catch {
-      return res.status(500).json('Erro interno no servidor!')
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
 }

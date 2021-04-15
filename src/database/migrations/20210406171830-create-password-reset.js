@@ -16,11 +16,6 @@ module.exports = {
         allowNull: false,
         defaultValue: 0
       },
-      expiration: {
-        type: 'TIMESTAMP',
-        allowNull: false,
-        defaultValue: Sequelize.literal('TIMESTAMPADD(HOUR, 12, CURRENT_TIMESTAMP)')
-      },
       ...Timestamp
     })
   },
