@@ -6,15 +6,17 @@ const User = require('../../controllers/UserController')
 router.get('/users', User.index)
 router.post('/users', User.create)
 
-router.get('/users/:user_uid')
-router.patch('/users/:user_uid')
-router.delete('/users/:user_uid')
+router.get('/users/:userUid', User.findByUid)
+
+router.get('/users/account', User.findSettingsByToken)
+router.patch('/users/account')
+router.delete('/users/account')
 
 // playlists
-router.get('/users/:user_uid/playlists')
+router.get('/users/:userUid/playlists')
 
 // follow
-router.post('/users/:user_uid/follow')
-router.delete('/users/:user_uid/follow')
+router.post('/users/:userUid/follow')
+router.delete('/users/:userUid/follow')
 
 module.exports = router

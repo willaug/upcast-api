@@ -44,6 +44,30 @@ class UserController {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
+
+  async findByUid (req, res) {
+    const { userUid } = req.params
+
+    if (userUid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    }
+
+    try {
+      const searchResult = await User.findByPk(userUid, { attributes: ['uid', 'username', 'url_photo'] })
+
+      if (searchResult === undefined || searchResult === null) {
+        return res.status(404).json('Usuário não encontrado.')
+      }
+
+      return res.status(200).json(searchResult)
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
+  }
+
+  async findSettingsByToken (req, res) {
+    
+  }
 }
 
 module.exports = new UserController()
