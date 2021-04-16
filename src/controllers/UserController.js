@@ -18,7 +18,6 @@ class UserController {
 
   async create (req, res) {
     const { username, password, email } = req.body
-
     const hashedPassword = await bcrypt.hash(password, 10)
     const uid = await nanoid(20)()
 

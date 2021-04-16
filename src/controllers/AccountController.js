@@ -17,6 +17,10 @@ class AccountController {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
+
+  async update (req, res) {
+    res.json('Olá, atualizado!')
+  }
 }
 
 module.exports = new AccountController()

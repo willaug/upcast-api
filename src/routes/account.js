@@ -7,7 +7,7 @@ const Auth = require('../middlewares/Auth')
 router.use('/account', Auth)
 
 router.get('/account', Account.index)
-router.patch('/account')
+router.patch('/account', Account.update)
 router.delete('/account')
 
 module.exports = router
