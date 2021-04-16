@@ -11,7 +11,7 @@ module.exports = function (req, res, next) {
       errorList.push(errorArray[i].msg)
     }
 
-    return res.status(40).json(errorList)
+    return res.status(400).json(errorList)
   }
 
   next()
