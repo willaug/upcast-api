@@ -1,9 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
-// const User = require('../controllers/UserController')
+const Account = require('../controllers/AccountController')
+const Auth = require('../middlewares/Auth')
 
-router.get('/account')
+router.use('/account', Auth)
+
+router.get('/account', Account.index)
 router.patch('/account')
 router.delete('/account')
 

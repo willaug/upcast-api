@@ -13,7 +13,7 @@ module.exports = {
         uid,
         username: 'Upcast',
         email: 'contact@upcast.com',
-        password,
+        password
       }
     ], {})
   },

@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-router.post('/authenticate')
+const Authenticate = require('../controllers/AuthenticateController')
+
+router.post('/authenticate', Authenticate.index)
 
 module.exports = router
