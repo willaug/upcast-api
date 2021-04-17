@@ -12,6 +12,6 @@ router.use('/account', Auth)
 
 router.get('/account', Account.index)
 router.patch('/account', [UserUpdateValidation, Validation], sendUserImage, Account.update)
-router.delete('/account')
+router.delete('/account', Account.delete)
 
 module.exports = router

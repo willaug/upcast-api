@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
+const Show = require('../models/Show')
+const Episode = require('../models/Episode')
 
 class AccountController {
   async index (req, res) {
@@ -75,6 +77,48 @@ class AccountController {
 
         return res.status(200).json('Alterações concluídas com sucesso')
       }
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
+  }
+
+  async delete (req, res) {
+    const { authorization } = req.headers
+    const token = authorization && authorization.split(' ')[1]
+    const decoded = jwt.decode(token)
+    const userUid = decoded.uid
+
+    const userURL = '/images/users/'
+    const showURL = '/images/shows/'
+    const episodeURL = '/images/episodes/'
+
+    try {
+      const userFound = await User.findByPk(userUid)
+      const userShows = await Show.findAll({ attributes: ['uid', 'url_photo'] }, { where: { user_uid: userUid } })
+
+      userShows.forEach(async show => {
+        if (show.url_photo !== `${showURL}default.svg`) {
+          await fs.unlinkSync(`./public${show.url_photo}`)
+        }
+
+        const showEpisodes = await Episode.findAll({ attributes: ['uid', 'url_thumbnail', 'url_audio'] }, { where: { show_uid: show.uid } })
+
+        showEpisodes.forEach(async episode => {
+          await fs.unlinkSync(`./public${episode.url_audio}`)
+
+          if (episode.url_thumbnail !== `${episodeURL}default.svg`) {
+            await fs.unlinkSync(`./public${episode.url_thumbnail}`)
+          }
+        })
+      })
+
+      if (userFound.url_photo !== `${userURL}default.svg`) {
+        await fs.unlinkSync(`./public${userFound.url_photo}`)
+      }
+
+      await User.destroy({ where: { uid: userUid } })
+
+      return res.status(200).json(`Sua conta foi deletada e não poderá ser recuperada. Até breve, ${userFound.username}!`)
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
