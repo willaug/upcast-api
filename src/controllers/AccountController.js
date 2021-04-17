@@ -19,7 +19,7 @@ class AccountController {
   }
 
   async update (req, res) {
-    res.json('Olá, atualizado!')
+    res.json(req.file)
   }
 }
 
