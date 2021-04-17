@@ -18,9 +18,10 @@ module.exports = function (req, res, next) {
     }
 
     if (unsentFile) {
-      next()
+      return next()
     }
 
-    return res.status(200).json(file)
+    res.locals.filename = file.filename
+    next()
   })
 }

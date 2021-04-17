@@ -6,7 +6,7 @@ const nanoid = NanoIDLength => require('../../config/configNanoid')(NanoIDLength
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const uid = await nanoid(20)()
-    const password = await bcrypt.hash('admin', 10)
+    const password = await bcrypt.hash('upcastAdmin', 10)
 
     await queryInterface.bulkInsert('user', [
       {
