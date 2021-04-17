@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+
 const User = require('../models/User')
 
 class AccountController {
@@ -19,7 +20,7 @@ class AccountController {
   }
 
   async update (req, res) {
-    res.json(req.file)
+    return res.status(200).json('Opa, você passou, mas não enviou nada!')
   }
 }
 

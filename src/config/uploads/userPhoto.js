@@ -22,10 +22,17 @@ module.exports = {
       'image/png'
     ]
 
-    if (allowedMimes.includes(file.mimetype)) {
-      cb(null, true)
+    const invalidImage = !allowedMimes.includes(file.mimetype)
+
+    if (invalidImage) {
+      const error = {
+        code: 415,
+        message: 'Apenas imagens em png, jpeg e jpg são suportadas'
+      }
+
+      cb(error, false)
     } else {
-      cb(new Error('Formato de imagem inválido!'))
+      cb(null, true)
     }
   }
 }
