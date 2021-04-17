@@ -10,6 +10,10 @@ module.exports = function (req, res, next) {
     const { file } = req
     const unsentFile = !file
 
+    if (unsentFile) {
+      return next()
+    }
+
     const originalName = file.filename.split('.')[0]
     const extName = path.extname(file.originalname)
     const newName = `${originalName}-256${extName}`
@@ -25,10 +29,6 @@ module.exports = function (req, res, next) {
       }
 
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
-    }
-
-    if (unsentFile) {
-      return next()
     }
 
     try {
