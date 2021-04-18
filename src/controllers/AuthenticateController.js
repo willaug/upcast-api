@@ -15,7 +15,7 @@ class AccountController {
       const userFound = await User.findOne({ where: { email } }, { attributes: ['uid', 'email', 'password'] })
 
       if (userFound === undefined || userFound === null) {
-        return res.status(404).json('Usuário não encontrado. Que tal tentar novamente?')
+        return res.status(401).json('Usuário não encontrado. Que tal tentar novamente?')
       }
 
       const comparison = await bcrypt.compare(password, userFound.password)
