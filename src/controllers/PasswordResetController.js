@@ -1,6 +1,7 @@
 require('dotenv').config()
 
 const nodemailer = require('nodemailer')
+const moment = require('moment')
 const nanoid = NanoIDLength => require('../config/configNanoid')(NanoIDLength)
 const transporterConfig = require('../config/transporterConfig')
 
@@ -34,7 +35,7 @@ class PasswordResetController {
         <a href='${URL}' target='_blank'>Recuperar senha</a>
         <br>
         <br>
-        <p>O pedido de redefinição expira em 12 horas e só poderá ser usado uma única vez!</p>
+        <p>O pedido de redefinição expira em 8 horas e só poderá ser usado uma única vez!</p>
         <p>Caso não tenha solicitado a recuperação de senha, ignore este email.</p>
         <br>
         <br>
@@ -49,6 +50,37 @@ class PasswordResetController {
       await PasswordReset.create({ uid, user_uid: userFound.uid })
 
       return res.status(201).json('Pedido de recuperação criado com sucesso, verifique seu e-mail.')
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
+  }
+
+  async findByUid (req, res) {
+    const { uid } = req.params
+
+    if (uid.length !== 50) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    }
+
+    try {
+      const passReset = await PasswordReset.findByPk(uid, { attributes: ['createdAt', 'used'] })
+
+      if (passReset === undefined || passReset === null) {
+        return res.status(404).json('Token de recuperação de senha não encontrado.')
+      }
+
+      const currentDate = moment()
+      const createdAt = moment(passReset.createdAt)
+      const expirationDate = moment(createdAt).add(8, 'hours')
+      const expirated = !expirationDate.isAfter(currentDate)
+
+      if (passReset.used === 1) {
+        return res.status(406).json('Token de recuperação de senha já utilizado.')
+      } else if (expirated) {
+        return res.status(406).json('Token de recuperação de senha expirado.')
+      } else {
+        return res.sendStatus(204)
+      }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
