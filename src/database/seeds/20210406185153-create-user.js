@@ -1,7 +1,7 @@
 'use strict'
 
 const bcrypt = require('bcrypt')
-const nanoid = NanoIDLength => require('../../config/configNanoid')(NanoIDLength)
+const nanoid = NanoIDLength => require('../../config/nanoidConfig')(NanoIDLength)
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

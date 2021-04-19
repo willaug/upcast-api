@@ -3,7 +3,7 @@ require('dotenv').config()
 const nodemailer = require('nodemailer')
 const bcrypt = require('bcrypt')
 const moment = require('moment')
-const nanoid = NanoIDLength => require('../config/configNanoid')(NanoIDLength)
+const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
 const transporterConfig = require('../config/transporterConfig')
 
 const User = require('../models/User')

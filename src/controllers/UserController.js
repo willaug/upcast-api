@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const nanoid = NanoIDLength => require('../config/configNanoid')(NanoIDLength)
+const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
 
 const User = require('../models/User')
 
@@ -45,14 +45,14 @@ class UserController {
   }
 
   async findByUid (req, res) {
-    const { userUid } = req.params
+    const { uid } = req.params
 
-    if (userUid.length !== 20) {
+    if (uid.length !== 20) {
       return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
     }
 
     try {
-      const searchResult = await User.findByPk(userUid, { attributes: ['uid', 'username', 'url_photo'] })
+      const searchResult = await User.findByPk(uid, { attributes: ['uid', 'username', 'url_photo'] })
 
       if (searchResult === undefined || searchResult === null) {
         return res.status(404).json('Usuário não encontrado.')
