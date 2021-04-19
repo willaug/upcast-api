@@ -17,9 +17,12 @@ class UserController {
   }
 
   async create (req, res) {
-    const { username, password, email } = req.body
+    const { password, email } = req.body
+    let { username } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const uid = await nanoid(20)()
+
+    username = username.replace(/  +/g, ' ')
 
     try {
       const [newUser, created] = await User.findOrCreate({

@@ -11,11 +11,38 @@ class FollowController {
     const follower = decoded.uid
     const following = req.params.uid
 
-    if (follower === following) {
-      return res.status(403).json('Você não pode seguir a si mesmo')
+    if (following.length !== 20) {
+      return res.status(400).json('Sintaxe de usuário incorreta.')
     }
 
-    return res.status(200).json('Você está seguindo o usuário: ' + following)
+    if (follower === following) {
+      return res.status(403).json('Você não pode seguir a si mesmo.')
+    }
+
+    try {
+      const searchFollowing = await User.findByPk(following, {
+        attributes: ['uid'],
+        include: { association: 'FollowingUser', attributes: [['uid', 'followerUid']], through: { attributes: [] } }
+      })
+
+      if (searchFollowing === undefined || searchFollowing === null) {
+        return res.status(400).json('Não é possível seguir este usuário pois ele não existe.')
+      }
+
+      const followingFilter = user => (user.followerUid = follower)
+      const userFollows = searchFollowing.FollowingUser.some(followingFilter)
+
+      if (userFollows) {
+        return res.status(403).json('Você já segue este usuário.')
+      }
+
+      const user = await User.findByPk(follower)
+      await user.addFollowerUser(following)
+
+      return res.status(201).json('Você começou a seguir este usuário.')
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
   }
 }
 
