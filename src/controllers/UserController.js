@@ -35,7 +35,7 @@ class UserController {
       const emailExists = !created
 
       if (emailExists) {
-        return res.status(406).json('E-mail já existente!')
+        return res.status(400).json('E-mail já existente!')
       }
 
       return res.status(201).json(`Seja bem-vindo(a) ${newUser.username}`)

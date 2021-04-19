@@ -22,7 +22,7 @@ class AccountController {
       const invalidComparison = !comparison
 
       if (invalidComparison) {
-        return res.status(406).json('Senha inválida')
+        return res.status(401).json('Senha inválida')
       }
 
       const token = await jwt.sign({ uid: userFound.uid, email: userFound.email },

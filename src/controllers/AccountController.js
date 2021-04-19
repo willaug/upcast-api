@@ -14,10 +14,10 @@ class AccountController {
     const decoded = jwt.decode(token)
 
     try {
-      const userFound = await User.findByPk(decoded.uid,
+      const user = await User.findByPk(decoded.uid,
         { attributes: ['uid', 'username', 'url_photo', 'email', 'createdAt', 'updatedAt'] })
 
-      return res.status(200).json(userFound)
+      return res.status(200).json(user)
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -34,23 +34,23 @@ class AccountController {
     const userUid = decoded.uid
 
     try {
-      const userFound = await User.findByPk(userUid)
+      const user = await User.findByPk(userUid)
 
       if (filename) {
         await User.update({ url_photo: URL + filename }, { where: { uid: userUid } })
 
-        if (userFound.url_photo === `${URL}default.svg`) {
+        if (user.url_photo === `${URL}default.svg`) {
           return res.status(200).json('Imagem adicionada com sucesso')
         }
 
-        const currentPhotoURL = `./public${userFound.url_photo}`
+        const currentPhotoURL = `./public${user.url_photo}`
         await fs.unlinkSync(currentPhotoURL)
 
         return res.status(200).json('Imagem alterada com sucesso')
       } else if (action) {
         await User.update({ url_photo: URL + 'default.svg' }, { where: { uid: userUid } })
 
-        const currentPhotoURL = `./public${userFound.url_photo}`
+        const currentPhotoURL = `./public${user.url_photo}`
         await fs.unlinkSync(currentPhotoURL)
 
         return res.status(200).json('Imagem removida com sucesso')
@@ -64,11 +64,11 @@ class AccountController {
         }
 
         if (newPassword !== undefined && currentPassword !== undefined) {
-          const comparison = await bcrypt.compare(currentPassword, userFound.password)
+          const comparison = await bcrypt.compare(currentPassword, user.password)
           const invalidComparison = !comparison
 
           if (invalidComparison) {
-            return res.status(406).json('A senha atual informada está incorreta')
+            return res.status(401).json('A senha atual informada está incorreta')
           }
 
           const hashedPassword = await bcrypt.hash(newPassword, 10)
@@ -93,7 +93,7 @@ class AccountController {
     const episodeURL = '/images/episodes/'
 
     try {
-      const userFound = await User.findByPk(userUid)
+      const user = await User.findByPk(userUid)
       const userShows = await Show.findAll({ attributes: ['uid', 'url_photo'] }, { where: { user_uid: userUid } })
 
       userShows.forEach(async show => {
@@ -112,13 +112,13 @@ class AccountController {
         })
       })
 
-      if (userFound.url_photo !== `${userURL}default.svg`) {
-        await fs.unlinkSync(`./public${userFound.url_photo}`)
+      if (user.url_photo !== `${userURL}default.svg`) {
+        await fs.unlinkSync(`./public${user.url_photo}`)
       }
 
       await User.destroy({ where: { uid: userUid } })
 
-      return res.status(200).json(`Sua conta foi deletada e não poderá ser recuperada. Até breve, ${userFound.username}!`)
+      return res.status(200).json(`Sua conta foi deletada e não poderá ser recuperada. Até breve, ${user.username}!`)
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
