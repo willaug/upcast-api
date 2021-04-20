@@ -14,10 +14,10 @@ class Show extends Model {
   }
 
   static associate (models) {
-    this.belongsTo(models.User, { foreignKey: 'user_uid', as: 'user' })
     this.hasMany(models.Episode, { foreignKey: 'show_uid', as: 'episode' })
+    this.belongsTo(models.User, { foreignKey: 'user_uid', as: 'user' })
     this.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' })
-    this.belongsToMany(models.User, { foreignKey: 'show_uid', through: 'follow_show', as: 'followed' })
+    this.belongsToMany(models.User, { foreignKey: 'show_uid', through: 'follow_show', as: 'followers' })
   }
 }
 
