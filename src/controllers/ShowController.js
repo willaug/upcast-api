@@ -1,5 +1,4 @@
 const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
-const jwt = require('jsonwebtoken')
 const fs = require('fs')
 
 const User = require('../models/User')
@@ -34,10 +33,7 @@ class ShowController {
         return res.status(400).json('Categoria inexistente.')
       }
 
-      const { authorization } = req.headers
-      const token = authorization && authorization.split(' ')[1]
-      const decoded = jwt.decode(token)
-      const userUid = decoded.uid
+      const { userUid } = res.locals
 
       const uid = await nanoid(20)()
 
@@ -166,6 +162,7 @@ class ShowController {
 
   async follow (req, res) {
     const { uid } = req.params
+    const { userUid } = res.locals
 
     if (uid.length !== 20) {
       return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
@@ -176,11 +173,6 @@ class ShowController {
         if (show === undefined || show === null) {
           return res.status(400).json('O programa que você quer seguir não existe.')
         } else {
-          const { authorization } = req.headers
-          const token = authorization && authorization.split(' ')[1]
-          const decoded = jwt.decode(token)
-          const userUid = decoded.uid
-
           const user = await User.findByPk(userUid, {
             include: { association: 'following', attributes: ['uid'], through: { attributes: [] } }
           })
@@ -192,12 +184,44 @@ class ShowController {
             return res.status(406).json('Você já segue este programa.')
           } else {
             await user.addFollowing(show)
-
             return res.status(201).json('Você começou a seguir este programa.')
           }
         }
-      } catch (err) {
-        return res.status(500).json(err)
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+      }
+    }
+  }
+
+  async unfollow (req, res) {
+    const { uid } = req.params
+    const { userUid } = res.locals
+
+    if (uid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    } else {
+      try {
+        const show = await Show.findByPk(uid)
+
+        if (show === undefined || show === null) {
+          return res.status(400).json('O programa que você quer deixar de seguir não existe.')
+        } else {
+          const user = await User.findByPk(userUid, {
+            include: { association: 'following', attributes: ['uid'], through: { attributes: [] } }
+          })
+
+          const userFollowsFilter = following => (following.uid = show.uid)
+          const userFollows = user.following.some(userFollowsFilter)
+
+          if (userFollows) {
+            await user.removeFollowing(show)
+            return res.status(406).json('Você deixou de seguir este programa.')
+          } else {
+            return res.status(406).json('Você não segue este programa.')
+          }
+        }
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
     }
   }

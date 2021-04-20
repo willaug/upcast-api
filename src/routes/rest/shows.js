@@ -21,6 +21,6 @@ router.delete('/shows/:uid', Auth, ProgramCreator, Show.delete)
 // follow
 router.use('/shows/:uid/follow', Auth)
 router.post('/shows/:uid/follow', Show.follow)
-router.delete('/shows/:uid/follow')
+router.delete('/shows/:uid/follow', Show.unfollow)
 
 module.exports = router

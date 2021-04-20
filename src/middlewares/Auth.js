@@ -30,6 +30,7 @@ module.exports = function (req, res, next) {
         return res.status(403).json('Sua autorização não pertence a nenhum usuário, autentique-se novamente.')
       }
 
+      res.locals.userUid = userUid.uid
       next()
     } catch {
       return res.status(500).json('Ocorreu um erro na verificação de token. Tente novamente mais tarde.')

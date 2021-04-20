@@ -1,5 +1,4 @@
 const fs = require('fs')
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
@@ -8,13 +7,10 @@ const Episode = require('../models/Episode')
 
 class AccountController {
   async index (req, res) {
-    const { authorization } = req.headers
-    const token = authorization && authorization.split(' ')[1]
-
-    const decoded = jwt.decode(token)
+    const { userUid } = res.locals
 
     try {
-      const user = await User.findByPk(decoded.uid,
+      const user = await User.findByPk(userUid,
         { attributes: ['uid', 'username', 'url_photo', 'email', 'createdAt', 'updatedAt'] })
 
       return res.status(200).json(user)
@@ -24,14 +20,9 @@ class AccountController {
   }
 
   async update (req, res) {
-    const { filename } = res.locals
+    const { userUid, filename } = res.locals
     const { action, username, email, newPassword, currentPassword } = req.body
     const URL = '/images/users/'
-
-    const { authorization } = req.headers
-    const token = authorization && authorization.split(' ')[1]
-    const decoded = jwt.decode(token)
-    const userUid = decoded.uid
 
     try {
       const user = await User.findByPk(userUid)
@@ -87,10 +78,7 @@ class AccountController {
   }
 
   async delete (req, res) {
-    const { authorization } = req.headers
-    const token = authorization && authorization.split(' ')[1]
-    const decoded = jwt.decode(token)
-    const userUid = decoded.uid
+    const { userUid } = res.locals
 
     const userURL = '/images/users/'
     const showURL = '/images/shows/'
