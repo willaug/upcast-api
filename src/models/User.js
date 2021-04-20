@@ -21,17 +21,6 @@ class User extends Model {
     this.hasMany(models.ResetPassword, { foreignKey: 'user_uid', as: 'passwordReset' })
     this.hasMany(models.Show, { foreignKey: 'user_uid', as: 'userShow' })
     this.hasMany(models.Playlist, { foreignKey: 'user_uid', as: 'userPlaylist' })
-
-    this.belongsToMany(models.User, {
-      foreignKey: 'follower_uid',
-      through: 'follow_user',
-      as: 'FollowerUser'
-    })
-    this.belongsToMany(models.User, {
-      foreignKey: 'following_uid',
-      through: 'follow_user',
-      as: 'FollowingUser'
-    })
   }
 }
 
