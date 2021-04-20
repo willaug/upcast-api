@@ -225,6 +225,62 @@ class ShowController {
       }
     }
   }
+
+  async followers (req, res) {
+    const { uid } = req.params
+
+    if (uid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    } else {
+      try {
+        const show = await Show.findByPk(uid)
+
+        if (show === undefined || show === null) {
+          return res.status(400).json('O programa não existe.')
+        } else {
+          const users = await User.findAndCountAll({
+            attributes: [],
+            include: { association: 'following', where: { uid }, attributes: [] }
+          })
+
+          const followerCount = users.count
+
+          return res.status(200).json(followerCount)
+        }
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+      }
+    }
+  }
+
+  async following (req, res) {
+    const { userUid } = res.locals
+    const { uid } = req.params
+
+    if (uid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    } else {
+      try {
+        const show = await Show.findByPk(uid)
+
+        if (show === undefined || show === null) {
+          return res.status(400).json('O programa não existe.')
+        } else {
+          const user = await User.findByPk(userUid, {
+            include: { association: 'following', where: { uid } }
+          })
+
+          if (user === undefined || user === null) {
+            return res.status(200).json(false)
+          } else {
+            return res.status(200).json(true)
+          }
+        }
+      } catch (err) {
+        return res.status(500).json(err)
+      }
+    }
+  }
 }
 
 module.exports = new ShowController()

@@ -19,6 +19,9 @@ router.patch('/shows/:uid', Auth, ProgramCreator, [ShowUpdateValidation, Validat
 router.delete('/shows/:uid', Auth, ProgramCreator, Show.delete)
 
 // follow
+router.get('/shows/:uid/followers', Show.followers)
+router.get('/shows/:uid/following', Auth, Show.following)
+
 router.use('/shows/:uid/follow', Auth)
 router.post('/shows/:uid/follow', Show.follow)
 router.delete('/shows/:uid/follow', Show.unfollow)
