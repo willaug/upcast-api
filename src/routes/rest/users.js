@@ -20,6 +20,6 @@ router.get('/users/:uid/playlists')
 // follow
 router.use('/users/:uid/follow', Auth)
 router.post('/users/:uid/follow', Follow.followUser)
-// router.delete('/users/:uid/follow', Follow.unfollowUser)
+router.delete('/users/:uid/follow', Follow.unfollowUser)
 
 module.exports = router
