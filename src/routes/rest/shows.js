@@ -1,8 +1,15 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/shows')
-router.post('/shows')
+const Show = require('../../controllers/ShowController')
+
+const Validation = require('../../middlewares/Validation')
+const ShowCreateValidation = require('../../validations/ShowCreateValidation')
+
+const Auth = require('../../middlewares/Auth')
+
+router.get('/shows', Show.index)
+router.post('/shows', Auth, [ShowCreateValidation, Validation], Show.create)
 
 router.get('/shows/:show_uid')
 router.patch('/shows/:show_uid')

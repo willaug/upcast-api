@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt')
 const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
+const bcrypt = require('bcrypt')
 
 const User = require('../models/User')
 
@@ -55,7 +55,7 @@ class UserController {
     }
 
     try {
-      const searchResult = await User.findByPk(uid, { attributes: ['uid', 'username', 'url_photo'] })
+      const searchResult = await User.findByPk(uid, { attributes: ['uid', 'username', 'url_photo', 'createdAt'] })
 
       if (searchResult === undefined || searchResult === null) {
         return res.status(404).json('Usuário não encontrado.')
