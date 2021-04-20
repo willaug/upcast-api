@@ -4,6 +4,7 @@ const fs = require('fs')
 
 const Category = require('../models/Category')
 const Show = require('../models/Show')
+const Episode = require('../models/Episode')
 
 class ShowController {
   async index (req, res) {
@@ -111,7 +112,13 @@ class ShowController {
         }
 
         if (category !== undefined) {
-          await Show.update({ category_id: category }, { where: { uid } })
+          const categories = await Category.findByPk(category)
+
+          if (categories === null || categories === undefined) {
+            return res.status(400).json('A categoria escolhida não existe.')
+          } else {
+            await Show.update({ category_id: category }, { where: { uid } })
+          }
         }
 
         if (description !== undefined) {
@@ -120,6 +127,37 @@ class ShowController {
 
         return res.status(200).json('Alterações concluídas com sucesso')
       }
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
+  }
+
+  async delete (req, res) {
+    const { uid } = req.params
+
+    try {
+      const show = await Show.findByPk(uid)
+
+      const showURL = '/images/shows/'
+      const episodeURL = '/images/episodes/'
+
+      if (show.url_photo !== `${showURL}default.svg`) {
+        await fs.unlinkSync(`./public${show.url_photo}`)
+      }
+
+      const episodes = await Episode.findAll({ where: { show_uid: uid } })
+
+      episodes.forEach(async episode => {
+        await fs.unlinkSync(`./public${episode.url_audio}`)
+
+        if (episode.url_thumbnail !== `${episodeURL}default.svg`) {
+          await fs.unlinkSync(`./public${episode.url_thumbnail}`)
+        }
+      })
+
+      await Show.destroy({ where: { uid } })
+
+      return res.status(200).json('O programa e seus episódios foram deletados e não poderão ser recuperados.')
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }

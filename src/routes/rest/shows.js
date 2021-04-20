@@ -16,7 +16,7 @@ router.post('/shows', Auth, [ShowCreateValidation, Validation], Show.create)
 
 router.get('/shows/:uid', Show.findByUid)
 router.patch('/shows/:uid', Auth, ProgramCreator, [ShowUpdateValidation, Validation], sendShowImage, Show.update)
-router.delete('/shows/:uid', Auth, ProgramCreator)
+router.delete('/shows/:uid', Auth, ProgramCreator, Show.delete)
 
 // follow
 router.post('/shows/:uid/follow')
