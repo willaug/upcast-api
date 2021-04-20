@@ -48,7 +48,11 @@ class AccountController {
 
         return res.status(200).json('Imagem alterada com sucesso')
       } else if (action) {
-        await User.update({ url_photo: URL + 'default.svg' }, { where: { uid: userUid } })
+        await User.update({ url_photo: `${URL}default.svg` }, { where: { uid: userUid } })
+
+        if (user.url_photo === `${URL}default.svg`) {
+          return res.status(406).json('Você não possui uma imagem definida.')
+        }
 
         const currentPhotoURL = `./public${user.url_photo}`
         await fs.unlinkSync(currentPhotoURL)

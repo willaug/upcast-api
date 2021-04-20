@@ -39,9 +39,9 @@ class UserController {
 
       if (emailExists) {
         return res.status(400).json('E-mail já existente!')
+      } else {
+        return res.status(201).json(`Seja bem-vindo(a) ${newUser.username}`)
       }
-
-      return res.status(201).json(`Seja bem-vindo(a) ${newUser.username}`)
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -52,18 +52,18 @@ class UserController {
 
     if (uid.length !== 20) {
       return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
-    }
+    } else {
+      try {
+        const searchResult = await User.findByPk(uid, { attributes: ['uid', 'username', 'url_photo', 'createdAt'] })
 
-    try {
-      const searchResult = await User.findByPk(uid, { attributes: ['uid', 'username', 'url_photo', 'createdAt'] })
+        if (searchResult === undefined || searchResult === null) {
+          return res.status(404).json('Usuário não encontrado.')
+        }
 
-      if (searchResult === undefined || searchResult === null) {
-        return res.status(404).json('Usuário não encontrado.')
+        return res.status(200).json(searchResult)
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
-
-      return res.status(200).json(searchResult)
-    } catch {
-      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
 }
