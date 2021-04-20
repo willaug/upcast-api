@@ -3,10 +3,10 @@ const multer = require('multer')
 const nanoid = NanoIDLength => require('../nanoidConfig')(NanoIDLength)
 
 module.exports = {
-  dest: path.resolve(__dirname, '..', '..', '..', 'public', 'images', 'users'),
+  dest: path.resolve(__dirname, '..', '..', '..', 'public', 'images', 'shows'),
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname, '..', '..', '..', 'public', 'images', 'users'))
+      cb(null, path.resolve(__dirname, '..', '..', '..', 'public', 'images', 'shows'))
     },
     filename: (req, file, cb) => {
       cb(null, nanoid(20)() + path.extname(file.originalname))

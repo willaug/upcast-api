@@ -8,13 +8,14 @@ const ShowCreateValidation = require('../../validations/ShowCreateValidation')
 const ShowUpdateValidation = require('../../validations/ShowUpdateValidation')
 
 const Auth = require('../../middlewares/Auth')
+const sendShowImage = require('../../middlewares/uploads/sendShowImage')
 const ProgramCreator = require('../../middlewares/ProgramCreator')
 
 router.get('/shows', Show.index)
 router.post('/shows', Auth, [ShowCreateValidation, Validation], Show.create)
 
 router.get('/shows/:uid', Show.findByUid)
-router.patch('/shows/:uid', Auth, ProgramCreator, [ShowUpdateValidation, Validation], Show.update)
+router.patch('/shows/:uid', Auth, ProgramCreator, [ShowUpdateValidation, Validation], sendShowImage, Show.update)
 router.delete('/shows/:uid', Auth, ProgramCreator)
 
 // follow

@@ -1,5 +1,5 @@
 const multer = require('multer')
-const photoConfig = require('../../config/uploads/userPhoto')
+const photoConfig = require('../../config/uploads/showPhoto')
 const upload = multer(photoConfig).single('file')
 const sharp = require('sharp')
 const fs = require('fs')
@@ -17,8 +17,8 @@ module.exports = function (req, res, next) {
       const extName = path.extname(file.originalname)
       const newName = `${originalName}-256${extName}`
 
-      const URL = `./public/images/users/${file.filename}`
-      const newURL = `./public/images/users/${newName}`
+      const URL = `./public/images/shows/${file.filename}`
+      const newURL = `./public/images/shows/${newName}`
 
       if (err) {
         if (err.code === 'LIMIT_FILE_SIZE') {

@@ -74,6 +74,7 @@ class ShowController {
   }
 
   async update (req, res) {
+    const { filename } = res.locals
     const { uid } = req.params
     const { action, title, description, category } = req.body
 
@@ -82,7 +83,18 @@ class ShowController {
     try {
       const show = await Show.findByPk(uid)
 
-      if (action) {
+      if (filename) {
+        await Show.update({ url_photo: URL + filename }, { where: { uid } })
+
+        if (show.url_photo === `${URL}default.svg`) {
+          return res.status(200).json('Imagem adicionada com sucesso')
+        }
+
+        const currentPhotoURL = `./public${show.url_photo}`
+        await fs.unlinkSync(currentPhotoURL)
+
+        return res.status(200).json('Imagem alterada com sucesso')
+      } else if (action) {
         await Show.update({ url_photo: `${URL}default.svg` }, { where: { uid } })
 
         if (show.url_photo === `${URL}default.svg`) {
@@ -91,6 +103,8 @@ class ShowController {
 
         const currentPhotoURL = `./public${show.url_photo}`
         await fs.unlinkSync(currentPhotoURL)
+
+        return res.status(200).json('Imagem removida com sucesso')
       } else {
         if (title !== undefined) {
           await Show.update({ title }, { where: { uid } })
