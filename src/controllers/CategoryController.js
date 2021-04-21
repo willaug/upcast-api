@@ -34,7 +34,9 @@ class CategoryController {
     try {
       const shows = await Show.findAll({
         attributes: ['uid', 'title', 'url_photo'],
-        include: { association: 'category', where: { slug }, attributes: [] }
+        include: [
+          { association: 'category', where: { slug }, attributes: [] },
+          { association: 'user', attributes: ['uid', 'url_photo', 'username'] }]
       })
 
       if (shows === undefined || shows === null) {

@@ -1,11 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/episodes')
-router.post('/episodes')
+const Episode = require('../../controllers/EpisodeController')
 
-router.get('/episodes/:episode_uid')
-router.patch('/episodes/:episode_uid')
-router.delete('/episodes/:episode_uid')
+const Auth = require('../../middlewares/Auth')
+const Validation = require('../../middlewares/Validation')
+const EpisodeCreateValidation = require('../../validations/EpisodeCreateValidation')
+
+router.get('/episodes', Episode.index)
+router.post('/episodes', Auth, [EpisodeCreateValidation, Validation], Episode.create)
+
+router.get('/episodes/:uid', Episode.findByUid)
+router.patch('/episodes/:uid', Auth)
+router.delete('/episodes/:uid', Auth)
 
 module.exports = router

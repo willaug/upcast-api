@@ -15,7 +15,7 @@ module.exports = {
       },
       url_audio: {
         type: Sequelize.STRING(80),
-        allowNull: false
+        allowNull: true
       },
       url_thumbnail: {
         type: Sequelize.STRING(60),
@@ -26,7 +26,8 @@ module.exports = {
       },
       duration: {
         type: Sequelize.TIME,
-        allowNull: false
+        defaultValue: '00:00:00',
+        allowNull: true
       },
       ...Timestamp
     })
