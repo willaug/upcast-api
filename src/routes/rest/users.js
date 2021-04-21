@@ -14,4 +14,7 @@ router.get('/users/:uid', User.findByUid)
 // playlists
 router.get('/users/:uid/playlists')
 
+// shows
+router.get('/users/:uid/shows')
+
 module.exports = router

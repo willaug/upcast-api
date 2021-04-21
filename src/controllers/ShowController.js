@@ -215,7 +215,7 @@ class ShowController {
 
           if (userFollows) {
             await user.removeFollowing(show)
-            return res.status(406).json('Você deixou de seguir este programa.')
+            return res.status(200).json('Você deixou de seguir este programa.')
           } else {
             return res.status(406).json('Você não segue este programa.')
           }

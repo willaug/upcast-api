@@ -1,11 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/categories')
-router.post('/categories')
+const CategoryController = require('../../controllers/CategoryController')
 
-router.get('/categories/:category_slug')
-router.patch('/categories/:category_slug')
-router.delete('/categories/:category_slug')
+router.get('/categories', CategoryController.index)
+router.get('/categories/:slug', CategoryController.findBySlug)
+router.get('/categories/:slug/shows', CategoryController.findShows)
 
 module.exports = router
