@@ -14,7 +14,11 @@ module.exports = {
   }),
   fileFilter: (req, file, cb) => {
     const allowedMimes = [
-      'audio/*'
+      'audio/mpeg',
+      'audio/mp4',
+      'audio/ogg',
+      'audio/flac',
+      'audio/wav'
     ]
 
     const invalidAudio = !allowedMimes.includes(file.mimetype)
@@ -22,7 +26,7 @@ module.exports = {
     if (invalidAudio) {
       const error = {
         code: 415,
-        message: 'Apenas áudios são suportados.'
+        message: 'Apenas alguns tipos de aúdio são suportados, são eles: mp3 (mpeg), mp4, ogg, flac e wav'
       }
 
       cb(error, false)
