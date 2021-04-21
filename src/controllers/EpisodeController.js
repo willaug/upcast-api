@@ -116,6 +116,24 @@ class EpisodeController {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
+
+  async delete (req, res) {
+    const { uid } = req.params
+
+    try {
+      const episode = await Episode.findByPk(uid)
+
+      if (episode.url_audio !== null) {
+        await fs.unlinkSync(`./public${episode.url_audio}`)
+      }
+
+      await Episode.destroy({ where: { uid } })
+
+      return res.status(200).json('Episódio removido.')
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    }
+  }
 }
 
 module.exports = new EpisodeController()
