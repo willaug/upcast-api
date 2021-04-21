@@ -10,7 +10,15 @@ module.exports = function (req, res, next) {
     const { file } = req
     const unsentFile = !file
 
-    if (unsentFile) {
+    if (err) {
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        return res.status(413).json('Envie uma imagem com até 2 MB')
+      } else if (err.code === 415) {
+        return res.status(err.code).json(err.message)
+      }
+
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+    } else if (unsentFile) {
       return next()
     } else {
       const originalName = file.filename.split('.')[0]
@@ -19,16 +27,6 @@ module.exports = function (req, res, next) {
 
       const URL = `./public/images/shows/${file.filename}`
       const newURL = `./public/images/shows/${newName}`
-
-      if (err) {
-        if (err.code === 'LIMIT_FILE_SIZE') {
-          return res.status(413).json('Envie uma imagem com até 2 MB')
-        } else if (err.code === 415) {
-          return res.status(err.code).json(err.message)
-        }
-
-        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
-      }
 
       try {
         await sharp(URL).resize(256, 256, { fit: 'cover' }).toFile(newURL)

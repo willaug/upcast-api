@@ -119,7 +119,11 @@ class ShowController {
         }
 
         if (description !== undefined) {
-          await Show.update({ description }, { where: { uid } })
+          if (description === '') {
+            await Show.update({ description: null }, { where: { uid } })
+          } else {
+            await Show.update({ description }, { where: { uid } })
+          }
         }
 
         return res.status(200).json('Alterações concluídas com sucesso')

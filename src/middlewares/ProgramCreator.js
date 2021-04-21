@@ -1,13 +1,8 @@
-const jwt = require('jsonwebtoken')
 const Show = require('../models/Show')
 
 module.exports = function (req, res, next) {
   const { uid } = req.params
-
-  const { authorization } = req.headers
-  const token = authorization && authorization.split(' ')[1]
-  const decoded = jwt.decode(token)
-  const userUid = decoded.uid
+  const { userUid } = res.locals
 
   if (uid.length !== 20) {
     return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')

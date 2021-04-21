@@ -1,4 +1,5 @@
 const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
+const fs = require('fs')
 
 const Episode = require('../models/Episode')
 const Show = require('../models/Show')
@@ -65,6 +66,58 @@ class EpisodeController {
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
+    }
+  }
+
+  async update (req, res) {
+    const { uid } = req.params
+    const { title, description, action, show } = req.body
+    const { thumbnail, audio } = res.locals
+
+    const audioURL = '/audios/'
+    const thumbnailURL = '/images/episodes/'
+
+    try {
+      const episode = await Episode.findByPk(uid)
+
+      if (action) {
+        await Episode.update({ url_thumbnail: `${thumbnailURL}default.svg` }, { where: { uid } })
+
+        if (episode.url_thumbnail === `${thumbnailURL}default.svg`) {
+          return res.status(406).json('O episódio não possui uma miniatura definida.')
+        }
+
+        const currentPhotoURL = `./public${episode.url_thumbnail}`
+        await fs.unlinkSync(currentPhotoURL)
+
+        return res.status(200).json('Imagem removida com sucesso')
+      } else {
+        if (description !== undefined) {
+          if (description === '') {
+            await Episode.update({ description: null }, { where: { uid } })
+          } else {
+            await Episode.update({ description }, { where: { uid } })
+          }
+        }
+
+        if (title !== undefined) {
+          await Episode.update({ title }, { where: { uid } })
+        }
+
+        if (show !== undefined) {
+          const showFound = await Show.findByPk(show)
+
+          if (showFound === undefined || showFound === null) {
+            return res.status(400).json('O programa mencionado não existe.')
+          } else {
+            await Episode.update({ show_uid: show }, { where: { uid } })
+          }
+        }
+
+        return res.status(200).json('Alterações concluídas.')
+      }
+    } catch {
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
   }
 }
