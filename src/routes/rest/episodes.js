@@ -14,8 +14,8 @@ router.get('/episodes', Episode.index)
 router.post('/episodes', Auth, [EpisodeCreateValidation, Validation], Episode.create)
 
 router.get('/episodes/:uid', Episode.findByUid)
-router.patch('/episodes/:uid',
-  Auth, EpisodeCreator, [EpisodeUpdateValidation, Validation], sendEpisodeAudio, Episode.update)
+router.patch('/episodes/:uid', Auth, EpisodeCreator, [EpisodeUpdateValidation, Validation],
+  sendEpisodeAudio, Episode.update)
 
 router.delete('/episodes/:uid', Auth)
 

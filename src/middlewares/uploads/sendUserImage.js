@@ -1,6 +1,6 @@
 const multer = require('multer')
 const photoConfig = require('../../config/uploads/userPhoto')
-const upload = multer(photoConfig).single('file')
+const upload = multer(photoConfig).single('photo')
 const sharp = require('sharp')
 const fs = require('fs')
 const path = require('path')

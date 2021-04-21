@@ -17,10 +17,6 @@ module.exports = {
         type: Sequelize.STRING(80),
         allowNull: true
       },
-      url_thumbnail: {
-        type: Sequelize.STRING(60),
-        defaultValue: '/images/episodes/default.svg'
-      },
       description: {
         type: Sequelize.TEXT
       },

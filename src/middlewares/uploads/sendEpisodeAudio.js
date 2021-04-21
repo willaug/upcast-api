@@ -14,11 +14,11 @@ module.exports = function (req, res, next) {
     if (err) {
       if (err.code === 415) {
         return res.status(err.code).json(err.message)
-      } else {
-        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
+
+      return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     } else if (unsentAudio) {
-      return next()
+      next()
     } else {
       const durationInseconds = await getAudioDurationInSeconds(`./public/audios/${file.filename}`)
       const duration = await moment.duration(durationInseconds, 'seconds').format('hh:mm:ss', { trim: false })

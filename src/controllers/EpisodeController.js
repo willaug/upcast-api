@@ -8,7 +8,7 @@ class EpisodeController {
   async index (req, res) {
     try {
       const episodes = await Episode.findAll({
-        attributes: ['uid', 'title', 'url_thumbnail', 'duration'],
+        attributes: ['uid', 'title', 'duration'],
         include: { association: 'show', attributes: ['uid', 'title'] }
       })
 
@@ -54,7 +54,7 @@ class EpisodeController {
     } else {
       try {
         const episode = await Episode.findByPk(uid, {
-          attributes: ['uid', 'title', 'description', 'url_thumbnail', 'url_audio', 'duration', 'createdAt'],
+          attributes: ['uid', 'title', 'description', 'url_audio', 'duration', 'createdAt'],
           include: { association: 'show', attributes: ['uid', 'title', 'url_photo'] }
         })
 
@@ -71,35 +71,22 @@ class EpisodeController {
 
   async update (req, res) {
     const { uid } = req.params
-    const { title, description, action, show } = req.body
-    const { thumbnail, audio, duration } = res.locals
+    const { title, description, show } = req.body
+    const { audio, duration } = res.locals
 
     const audioURL = '/audios/'
-    const thumbnailURL = '/images/episodes/'
 
     try {
       const episode = await Episode.findByPk(uid)
 
       if (audio) {
-        const newAudio = audioURL + audio
         if (episode.url_audio !== null) {
-          await fs.unlinkSync(audioURL + episode.url_audio)
+          await fs.unlinkSync(`./public${episode.url_audio}`)
         }
 
-        await Episode.update({ url_audio: newAudio, duration }, { where: { uid } })
+        await Episode.update({ url_audio: audioURL + audio, duration }, { where: { uid } })
 
         return res.status(200).json('Aúdio adicionado com sucesso.')
-      } else if (action) {
-        await Episode.update({ url_thumbnail: `${thumbnailURL}default.svg` }, { where: { uid } })
-
-        if (episode.url_thumbnail === `${thumbnailURL}default.svg`) {
-          return res.status(406).json('O episódio não possui uma miniatura definida.')
-        }
-
-        const currentPhotoURL = `./public${episode.url_thumbnail}`
-        await fs.unlinkSync(currentPhotoURL)
-
-        return res.status(200).json('Imagem removida com sucesso')
       } else {
         if (description !== undefined) {
           if (description === '') {

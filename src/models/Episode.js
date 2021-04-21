@@ -9,7 +9,6 @@ class Episode extends Model {
       },
       title: DataTypes.STRING(45),
       url_audio: DataTypes.STRING(80),
-      url_thumbnail: DataTypes.STRING(80),
       description: DataTypes.TEXT,
       duration: DataTypes.TIME
     }, { sequelize, tableName: 'episode' })
