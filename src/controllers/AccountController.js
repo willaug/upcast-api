@@ -85,14 +85,14 @@ class AccountController {
 
     try {
       const user = await User.findByPk(userUid)
-      const userShows = await Show.findAll({ attributes: ['uid', 'url_photo'] }, { where: { user_uid: userUid } })
+      const userShows = await Show.findAll({ where: { user_uid: userUid } })
 
       userShows.forEach(async show => {
         if (show.url_photo !== `${showURL}default.svg`) {
           await fs.unlinkSync(`./public${show.url_photo}`)
         }
 
-        const showEpisodes = await Episode.findAll({ attributes: ['uid', 'url_thumbnail', 'url_audio'] }, { where: { show_uid: show.uid } })
+        const showEpisodes = await Episode.findAll({ where: { show_uid: show.uid } })
 
         showEpisodes.forEach(async episode => {
           await fs.unlinkSync(`./public${episode.url_audio}`)

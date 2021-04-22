@@ -15,7 +15,7 @@ router.get('/playlists/:uid', PlaylistController.findByUid)
 router.patch('/playlists/:uid', Auth, PlaylistCreator, [PlaylistValidation, Validation], PlaylistController.update)
 router.delete('/playlists/:uid', Auth, PlaylistCreator, PlaylistController.delete)
 
-router.post('/playlists/:uid/item')
-router.delete('/playlists/:uid/item/:item_playlist_id')
+router.post('/playlists/:uid/item', Auth, PlaylistCreator, PlaylistController.addItem)
+router.delete('/playlists/:uid/item/:item', Auth, PlaylistCreator, PlaylistController.removeItem)
 
 module.exports = router

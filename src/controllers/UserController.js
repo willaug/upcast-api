@@ -76,7 +76,7 @@ class UserController {
       try {
         const user = await User.findByPk(uid, {
           attributes: [],
-          include: { association: 'userShow', attributes: ['title', 'description', 'url_photo'] }
+          include: { association: 'userShow', attributes: ['uid', 'title', 'description', 'url_photo'] }
         })
 
         if (user === undefined || user === null) {
@@ -84,6 +84,25 @@ class UserController {
         }
 
         return res.status(200).json(user.userShow)
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+      }
+    }
+  }
+
+  async findPlaylists (req, res) {
+    const { uid } = req.params
+
+    if (uid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    } else {
+      try {
+        const user = await User.findByPk(uid, {
+          attributes: [],
+          include: { association: 'userPlaylist', attributes: ['uid', 'title'] }
+        })
+
+        return res.status(200).json(user.userPlaylist)
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
