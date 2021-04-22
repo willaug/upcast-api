@@ -1,6 +1,10 @@
 const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
 const bcrypt = require('bcrypt')
 
+const dotEnv = require('dotenv').config()
+const dotEnvExpand = require('dotenv-expand')
+dotEnvExpand(dotEnv)
+
 const User = require('../models/User')
 
 class UserController {
