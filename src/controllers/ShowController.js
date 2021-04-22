@@ -12,7 +12,7 @@ class ShowController {
       const shows = await Show.findAll({
         attributes: ['uid', 'title', 'url_photo'],
         include: [
-          { association: 'user', attributes: ['uid', 'username'] },
+          { association: 'author', attributes: ['uid', 'username'] },
           { association: 'category', attributes: ['name', 'slug'] }
         ]
       })
@@ -55,7 +55,7 @@ class ShowController {
         const show = await Show.findByPk(uid, {
           attributes: ['uid', 'title', 'url_photo', 'description', 'createdAt'],
           include: [
-            { association: 'user', attributes: ['uid', 'username', 'url_photo'] },
+            { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
             { association: 'category', attributes: ['name', 'slug'] }
           ]
         })
@@ -291,7 +291,7 @@ class ShowController {
         const show = await Show.findByPk(uid, {
           attributes: ['uid', 'title', 'description', 'url_photo', 'createdAt'],
           include: [
-            { association: 'user', attributes: ['uid', 'username', 'url_photo'] },
+            { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
             { association: 'episode', attributes: ['uid', 'title', 'description', 'duration'] }
           ]
         })
