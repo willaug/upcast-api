@@ -10,11 +10,11 @@ module.exports = function (req, res, next) {
 
   Show.findByPk(uid, {
     attributes: [],
-    include: { association: 'user', attributes: ['uid'] }
+    include: { association: 'author', attributes: ['uid'] }
   }).then(data => {
     if (data === undefined || data === null) {
       return res.status(404).json('Programa não encontrado.')
-    } else if (data.user.uid === userUid) {
+    } else if (data.author.uid === userUid) {
       next()
     } else {
       return res.status(403).json('Você não tem permissão para alterar este programa.')

@@ -38,18 +38,18 @@ class AccountController {
         await fs.unlinkSync(currentPhotoURL)
 
         return res.status(200).json('Imagem alterada com sucesso')
-      } else if (action) {
-        await User.update({ url_photo: `${URL}default.svg` }, { where: { uid: userUid } })
+      } else {
+        if (action) {
+          await User.update({ url_photo: `${URL}default.svg` }, { where: { uid: userUid } })
 
-        if (user.url_photo === `${URL}default.svg`) {
-          return res.status(406).json('Você não possui uma imagem definida.')
+          if (user.url_photo === `${URL}default.svg`) {
+            return res.status(406).json('Você não possui uma imagem definida.')
+          }
+
+          const currentPhotoURL = `./public${user.url_photo}`
+          await fs.unlinkSync(currentPhotoURL)
         }
 
-        const currentPhotoURL = `./public${user.url_photo}`
-        await fs.unlinkSync(currentPhotoURL)
-
-        return res.status(200).json('Imagem removida com sucesso')
-      } else {
         if (username !== undefined) {
           await User.update({ username }, { where: { uid: userUid } })
         }

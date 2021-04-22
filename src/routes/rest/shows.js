@@ -26,7 +26,4 @@ router.use('/shows/:uid/follow', Auth)
 router.post('/shows/:uid/follow', Show.follow)
 router.delete('/shows/:uid/follow', Show.unfollow)
 
-// episode
-router.get('/shows/:uid/episodes', Show.episodes)
-
 module.exports = router

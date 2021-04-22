@@ -56,7 +56,8 @@ class ShowController {
           attributes: ['uid', 'title', 'url_photo', 'description', 'createdAt'],
           include: [
             { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
-            { association: 'category', attributes: ['name', 'slug'] }
+            { association: 'category', attributes: ['name', 'slug'] },
+            { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'] }
           ]
         })
 
@@ -92,18 +93,18 @@ class ShowController {
         await fs.unlinkSync(currentPhotoURL)
 
         return res.status(200).json('Imagem alterada com sucesso')
-      } else if (action) {
-        await Show.update({ url_photo: `${URL}default.svg` }, { where: { uid } })
+      } else {
+        if (action) {
+          await Show.update({ url_photo: `${URL}default.svg` }, { where: { uid } })
 
-        if (show.url_photo === `${URL}default.svg`) {
-          return res.status(406).json('O programa não possui uma imagem definida.')
+          if (show.url_photo === `${URL}default.svg`) {
+            return res.status(406).json('O programa não possui uma imagem definida.')
+          }
+
+          const currentPhotoURL = `./public${show.url_photo}`
+          await fs.unlinkSync(currentPhotoURL)
         }
 
-        const currentPhotoURL = `./public${show.url_photo}`
-        await fs.unlinkSync(currentPhotoURL)
-
-        return res.status(200).json('Imagem removida com sucesso')
-      } else {
         if (title !== undefined) {
           await Show.update({ title }, { where: { uid } })
         }
@@ -275,28 +276,6 @@ class ShowController {
             return res.status(200).json(true)
           }
         }
-      } catch {
-        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
-      }
-    }
-  }
-
-  async episodes (req, res) {
-    const { uid } = req.params
-
-    if (uid.length !== 20) {
-      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
-    } else {
-      try {
-        const show = await Show.findByPk(uid, {
-          attributes: ['uid', 'title', 'description', 'url_photo', 'createdAt'],
-          include: [
-            { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
-            { association: 'episode', attributes: ['uid', 'title', 'description', 'duration'] }
-          ]
-        })
-
-        return res.status(200).json(show)
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }

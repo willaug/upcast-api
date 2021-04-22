@@ -13,7 +13,7 @@ module.exports = function (req, res, next) {
     include: { association: 'author', attributes: ['uid'] }
   }).then(data => {
     if (data === undefined || data === null) {
-      return res.status(404).json('Programa não encontrado.')
+      return res.status(404).json('Playlist não encontrada.')
     } else if (data.author.uid === userUid) {
       next()
     } else {

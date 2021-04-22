@@ -137,7 +137,7 @@ class PlaylistController {
           const episode = await Episode.findByPk(playlist.episodes[0].uid)
           await episode.removePlaylist(playlist)
 
-          return res.status(201).json('Episódio removido da playlist com sucesso.')
+          return res.status(200).json('Episódio removido da playlist com sucesso.')
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')

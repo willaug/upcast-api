@@ -36,7 +36,7 @@ class CategoryController {
         attributes: ['uid', 'title', 'url_photo'],
         include: [
           { association: 'category', where: { slug }, attributes: [] },
-          { association: 'user', attributes: ['uid', 'url_photo', 'username'] }]
+          { association: 'author', attributes: ['uid', 'url_photo', 'username'] }]
       })
 
       if (shows === undefined || shows === null) {

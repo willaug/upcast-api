@@ -72,7 +72,7 @@ class EpisodeController {
   async update (req, res) {
     const { uid } = req.params
     const { title, description, show } = req.body
-    const { audio, duration } = res.locals
+    const { audio, duration, userUid } = res.locals
 
     const audioURL = '/audios/'
 
@@ -105,6 +105,8 @@ class EpisodeController {
 
           if (showFound === undefined || showFound === null) {
             return res.status(400).json('O programa mencionado não existe.')
+          } else if (showFound.user_uid !== userUid) {
+            return res.status(403).json('Você não tem permissão para alterar o programa.')
           } else {
             await Episode.update({ show_uid: show }, { where: { uid } })
           }

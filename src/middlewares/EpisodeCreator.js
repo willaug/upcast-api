@@ -10,12 +10,12 @@ module.exports = async function (req, res, next) {
 
   try {
     const episode = await Episode.findByPk(uid, {
-      include: { association: 'show', include: { association: 'user' } }
+      include: { association: 'show', include: { association: 'author' } }
     })
 
     if (episode === undefined || episode === null) {
       return res.status(404).json('Episódio não encontrado')
-    } else if (episode.show.user.uid !== userUid) {
+    } else if (episode.show.author.uid !== userUid) {
       return res.status(403).json('Você não possui permissão de alterar este episódio.')
     } else {
       next()
