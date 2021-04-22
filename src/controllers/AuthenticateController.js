@@ -25,7 +25,7 @@ class AccountController {
         return res.status(401).json('Senha inválida')
       }
 
-      const token = await jwt.sign({ uid: userFound.uid, email: userFound.email },
+      const token = await jwt.sign({ uid: userFound.uid },
         process.env.ACCESS_TOKEN, { expiresIn: process.env.EXPIRATION_TOKEN })
 
       return res.status(200).json(token)

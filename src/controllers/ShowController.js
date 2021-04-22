@@ -140,7 +140,6 @@ class ShowController {
       const show = await Show.findByPk(uid)
 
       const showURL = '/images/shows/'
-      const episodeURL = '/images/episodes/'
 
       if (show.url_photo !== `${showURL}default.svg`) {
         await fs.unlinkSync(`./public${show.url_photo}`)
@@ -150,10 +149,6 @@ class ShowController {
 
       episodes.forEach(async episode => {
         await fs.unlinkSync(`./public${episode.url_audio}`)
-
-        if (episode.url_thumbnail !== `${episodeURL}default.svg`) {
-          await fs.unlinkSync(`./public${episode.url_thumbnail}`)
-        }
       })
 
       await Show.destroy({ where: { uid } })
@@ -280,8 +275,30 @@ class ShowController {
             return res.status(200).json(true)
           }
         }
-      } catch (err) {
-        return res.status(500).json(err)
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
+      }
+    }
+  }
+
+  async episodes (req, res) {
+    const { uid } = req.params
+
+    if (uid.length !== 20) {
+      return res.status(400).json('Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?')
+    } else {
+      try {
+        const show = await Show.findByPk(uid, {
+          attributes: ['uid', 'title', 'description', 'url_photo', 'createdAt'],
+          include: [
+            { association: 'user', attributes: ['uid', 'username', 'url_photo'] },
+            { association: 'episode', attributes: ['uid', 'title', 'description', 'duration'] }
+          ]
+        })
+
+        return res.status(200).json(show)
+      } catch {
+        return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
     }
   }

@@ -1,14 +1,21 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/playlists')
-router.post('/playlists')
+const PlaylistController = require('../../controllers/PlaylistController')
 
-router.get('/playlists/:playlist_uid')
-router.patch('/playlists/:playlist_uid')
-router.delete('/playlists/:playlist_uid')
+const Auth = require('../../middlewares/Auth')
+const Validation = require('../../middlewares/Validation')
+const PlaylistValidation = require('../../validations/PlaylistValidation')
+const PlaylistCreator = require('../../middlewares/PlaylistCreator')
 
-router.post('/playlists/:playlist_uid/item')
-router.delete('/playlists/:playlist_uid/item/:item_playlist_id')
+router.get('/playlists', PlaylistController.index)
+router.post('/playlists', Auth, [PlaylistValidation, Validation], PlaylistController.create)
+
+router.get('/playlists/:uid', PlaylistController.findByUid)
+router.patch('/playlists/:uid', Auth, PlaylistCreator, [PlaylistValidation, Validation], PlaylistController.update)
+router.delete('/playlists/:uid', Auth, PlaylistCreator, PlaylistController.delete)
+
+router.post('/playlists/:uid/item')
+router.delete('/playlists/:uid/item/:item_playlist_id')
 
 module.exports = router

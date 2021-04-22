@@ -12,11 +12,11 @@ class Playlist extends Model {
   }
 
   static associate (models) {
-    this.belongsTo(models.User, { foreignKey: 'user_uid', as: 'user' })
+    this.belongsTo(models.User, { foreignKey: 'user_uid', as: 'author' })
     this.belongsToMany(models.Episode, {
       foreignKey: 'playlist_uid',
       through: 'playlist_item',
-      as: 'episode'
+      as: 'episodes'
     })
   }
 }

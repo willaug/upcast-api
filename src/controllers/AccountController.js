@@ -82,7 +82,6 @@ class AccountController {
 
     const userURL = '/images/users/'
     const showURL = '/images/shows/'
-    const episodeURL = '/images/episodes/'
 
     try {
       const user = await User.findByPk(userUid)
@@ -97,10 +96,6 @@ class AccountController {
 
         showEpisodes.forEach(async episode => {
           await fs.unlinkSync(`./public${episode.url_audio}`)
-
-          if (episode.url_thumbnail !== `${episodeURL}default.svg`) {
-            await fs.unlinkSync(`./public${episode.url_thumbnail}`)
-          }
         })
       })
 
