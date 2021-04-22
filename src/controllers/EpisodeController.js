@@ -12,7 +12,16 @@ class EpisodeController {
         include: { association: 'show', attributes: ['uid', 'title'] }
       })
 
-      return res.status(200).json(episodes)
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/episodes`,
+          rel: 'post_create_episode',
+          method: 'POST'
+        }
+      ]
+
+      return res.status(200).json({ response: episodes, _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -39,7 +48,31 @@ class EpisodeController {
           description
         })
 
-        return res.status(201).json('Episódio criado.')
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/episodes`,
+            rel: 'get_all_episodes',
+            method: 'GET'
+          },
+          {
+            href: `${host}/episodes/${uid}`,
+            rel: 'get_episode',
+            method: 'GET'
+          },
+          {
+            href: `${host}/episodes/${uid}`,
+            rel: 'update_episode',
+            method: 'PATCH'
+          },
+          {
+            href: `${host}/episodes/${uid}`,
+            rel: 'delete_episode',
+            method: 'DELETE'
+          }
+        ]
+
+        return res.status(201).json({ response: 'Episódio criado.', _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -61,7 +94,21 @@ class EpisodeController {
         if (episode === undefined || episode === null) {
           return res.status(404).json('Episódio não encontrado.')
         } else {
-          return res.status(200).json(episode)
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/episodes/${uid}`,
+              rel: 'patch_update_episode',
+              method: 'PATCH'
+            },
+            {
+              href: `${host}/episodes/${uid}`,
+              rel: 'delete_episode',
+              method: 'DELETE'
+            }
+          ]
+
+          return res.status(200).json({ response: episode, _links })
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -79,6 +126,20 @@ class EpisodeController {
     try {
       const episode = await Episode.findByPk(uid)
 
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/episodes/${uid}`,
+          rel: 'get_episode',
+          method: 'GET'
+        },
+        {
+          href: `${host}/episodes/${uid}`,
+          rel: 'delete_episode',
+          method: 'DELETE'
+        }
+      ]
+
       if (audio) {
         if (episode.url_audio !== null) {
           await fs.unlinkSync(`./public${episode.url_audio}`)
@@ -86,7 +147,7 @@ class EpisodeController {
 
         await Episode.update({ url_audio: audioURL + audio, duration }, { where: { uid } })
 
-        return res.status(200).json('Aúdio adicionado com sucesso.')
+        return res.status(200).json({ response: 'Aúdio adicionado com sucesso.', _links })
       } else {
         if (description !== undefined) {
           if (description === '') {
@@ -112,7 +173,7 @@ class EpisodeController {
           }
         }
 
-        return res.status(200).json('Alterações concluídas.')
+        return res.status(200).json({ response: 'Alterações concluídas.', _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -131,7 +192,21 @@ class EpisodeController {
 
       await Episode.destroy({ where: { uid } })
 
-      return res.status(200).json('Episódio removido.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/episodes/${uid}`,
+          rel: 'get_episode',
+          method: 'GET'
+        },
+        {
+          href: `${host}/episodes/${uid}`,
+          rel: 'patch_update_episode',
+          method: 'PATCH'
+        }
+      ]
+
+      return res.status(200).json({ response: 'Episódio removido.', _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }

@@ -1,10 +1,6 @@
 const nanoid = NanoIDLength => require('../config/nanoidConfig')(NanoIDLength)
 const bcrypt = require('bcrypt')
 
-const dotEnv = require('dotenv').config()
-const dotEnvExpand = require('dotenv-expand')
-dotEnvExpand(dotEnv)
-
 const User = require('../models/User')
 
 class UserController {
@@ -14,7 +10,16 @@ class UserController {
         attributes: ['uid', 'username', 'url_photo']
       })
 
-      return res.status(200).json(users)
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/users`,
+          rel: 'post_create_user',
+          method: 'POST'
+        }
+      ]
+
+      return res.status(200).json({ response: users, _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -44,7 +49,26 @@ class UserController {
       if (emailExists) {
         return res.status(400).json('E-mail já existente!')
       } else {
-        return res.status(201).json(`Seja bem-vindo(a) ${newUser.username}`)
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/users/${uid}`,
+            rel: 'get_user',
+            method: 'GET'
+          },
+          {
+            href: `${host}/users/${uid}/playlists`,
+            rel: 'get_user_playlists',
+            method: 'GET'
+          },
+          {
+            href: `${host}/users/${uid}/shows`,
+            rel: 'get_user_shows',
+            method: 'GET'
+          }
+        ]
+
+        return res.status(201).json({ response: `Seja bem-vindo(a) ${newUser.username}`, _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -62,9 +86,28 @@ class UserController {
 
         if (user === undefined || user === null) {
           return res.status(404).json('Usuário não encontrado.')
-        }
+        } else {
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/users`,
+              rel: 'get_all_users',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}/playlists`,
+              rel: 'get_user_playlists',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}/shows`,
+              rel: 'get_user_shows',
+              method: 'GET'
+            }
+          ]
 
-        return res.status(200).json(user)
+          return res.status(200).json({ response: user, _links })
+        }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
@@ -85,9 +128,28 @@ class UserController {
 
         if (user === undefined || user === null) {
           return res.status(404).json('Usuário não encontrado.')
-        }
+        } else {
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/users`,
+              rel: 'get_all_users',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}`,
+              rel: 'get_user',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}/playlists`,
+              rel: 'get_user_playlists',
+              method: 'GET'
+            }
+          ]
 
-        return res.status(200).json(user.userShow)
+          return res.status(200).json({ response: user.userShow, _links })
+        }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
@@ -106,7 +168,30 @@ class UserController {
           include: { association: 'userPlaylist', attributes: ['uid', 'title'] }
         })
 
-        return res.status(200).json(user.userPlaylist)
+        if (user === undefined || user === null) {
+          return res.status(404).json('Usuário não encontrado.')
+        } else {
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/users`,
+              rel: 'get_all_users',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}`,
+              rel: 'get_user',
+              method: 'GET'
+            },
+            {
+              href: `${host}/users/${uid}/shows`,
+              rel: 'get_user_shows',
+              method: 'GET'
+            }
+          ]
+
+          return res.status(200).json({ response: user.userPlaylist, _links })
+        }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }

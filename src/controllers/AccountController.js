@@ -13,7 +13,21 @@ class AccountController {
       const user = await User.findByPk(userUid,
         { attributes: ['uid', 'username', 'url_photo', 'email', 'createdAt', 'updatedAt'] })
 
-      return res.status(200).json(user)
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/account`,
+          rel: 'patch_update_account',
+          method: 'PATCH'
+        },
+        {
+          href: `${host}/account`,
+          rel: 'delete_account',
+          method: 'DELETE'
+        }
+      ]
+
+      return res.status(200).json({ response: user, _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -24,6 +38,20 @@ class AccountController {
     const { action, username, email, newPassword, currentPassword } = req.body
     const URL = '/images/users/'
 
+    const host = process.env.HOST
+    const _links = [
+      {
+        href: `${host}/account`,
+        rel: 'get_account',
+        method: 'GET'
+      },
+      {
+        href: `${host}/account`,
+        rel: 'delete_account',
+        method: 'DELETE'
+      }
+    ]
+
     try {
       const user = await User.findByPk(userUid)
 
@@ -31,13 +59,13 @@ class AccountController {
         await User.update({ url_photo: URL + filename }, { where: { uid: userUid } })
 
         if (user.url_photo === `${URL}default.svg`) {
-          return res.status(200).json('Imagem adicionada com sucesso')
+          return res.status(200).json({ response: 'Imagem adicionada com sucesso', _links })
         }
 
         const currentPhotoURL = `./public${user.url_photo}`
         await fs.unlinkSync(currentPhotoURL)
 
-        return res.status(200).json('Imagem alterada com sucesso')
+        return res.status(200).json({ response: 'Imagem alterada com sucesso', _links })
       } else {
         if (action) {
           await User.update({ url_photo: `${URL}default.svg` }, { where: { uid: userUid } })
@@ -70,7 +98,7 @@ class AccountController {
           await User.update({ password: hashedPassword }, { where: { uid: userUid } })
         }
 
-        return res.status(200).json('Alterações concluídas com sucesso')
+        return res.status(200).json({ response: 'Alterações concluídas com sucesso', _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -82,6 +110,20 @@ class AccountController {
 
     const userURL = '/images/users/'
     const showURL = '/images/shows/'
+
+    const host = process.env.HOST
+    const _links = [
+      {
+        href: `${host}/account`,
+        rel: 'get_account',
+        method: 'GET'
+      },
+      {
+        href: `${host}/account`,
+        rel: 'delete_account',
+        method: 'DELETE'
+      }
+    ]
 
     try {
       const user = await User.findByPk(userUid)
@@ -105,7 +147,10 @@ class AccountController {
 
       await User.destroy({ where: { uid: userUid } })
 
-      return res.status(200).json(`Sua conta foi deletada e não poderá ser recuperada. Até breve, ${user.username}!`)
+      return res.status(200).json({
+        response: `Sua conta foi deletada e não poderá ser recuperada. Até breve, ${user.username}!`,
+        _links
+      })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }

@@ -17,7 +17,16 @@ class ShowController {
         ]
       })
 
-      return res.status(200).json(shows)
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/shows`,
+          rel: 'post_create_show',
+          method: 'POST'
+        }
+      ]
+
+      return res.status(200).json({ response: shows, _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -39,7 +48,26 @@ class ShowController {
 
       await Show.create({ uid, user_uid: userUid, category_id: category, title, description })
 
-      return res.status(201).json('Programa criado com sucesso.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/shows/${uid}`,
+          rel: 'get_show',
+          method: 'GET'
+        },
+        {
+          href: `${host}/shows/${uid}`,
+          rel: 'patch_update_show',
+          method: 'PATCH'
+        },
+        {
+          href: `${host}/shows/${uid}`,
+          rel: 'delete_show',
+          method: 'DELETE'
+        }
+      ]
+
+      return res.status(201).json({ response: 'Programa criado com sucesso.', _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -65,7 +93,21 @@ class ShowController {
           return res.status(404).json('Programa não encontrado.')
         }
 
-        return res.status(200).json(show)
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/shows/${uid}`,
+            rel: 'patch_update_show',
+            method: 'PATCH'
+          },
+          {
+            href: `${host}/shows/${uid}`,
+            rel: 'delete_show',
+            method: 'DELETE'
+          }
+        ]
+
+        return res.status(200).json({ response: show, _links })
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }
@@ -79,6 +121,20 @@ class ShowController {
 
     const URL = '/images/shows/'
 
+    const host = process.env.HOST
+    const _links = [
+      {
+        href: `${host}/shows/${uid}`,
+        rel: 'get_show',
+        method: 'GET'
+      },
+      {
+        href: `${host}/shows/${uid}`,
+        rel: 'delete_show',
+        method: 'DELETE'
+      }
+    ]
+
     try {
       const show = await Show.findByPk(uid)
 
@@ -86,13 +142,13 @@ class ShowController {
         await Show.update({ url_photo: URL + filename }, { where: { uid } })
 
         if (show.url_photo === `${URL}default.svg`) {
-          return res.status(200).json('Imagem adicionada com sucesso')
+          return res.status(200).json({ response: 'Imagem adicionada com sucesso', _links })
         }
 
         const currentPhotoURL = `./public${show.url_photo}`
         await fs.unlinkSync(currentPhotoURL)
 
-        return res.status(200).json('Imagem alterada com sucesso')
+        return res.status(200).json({ response: 'Imagem alterada com sucesso', _links })
       } else {
         if (action) {
           await Show.update({ url_photo: `${URL}default.svg` }, { where: { uid } })
@@ -127,7 +183,7 @@ class ShowController {
           }
         }
 
-        return res.status(200).json('Alterações concluídas com sucesso')
+        return res.status(200).json({ response: 'Alterações concluídas com sucesso', _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -154,7 +210,24 @@ class ShowController {
 
       await Show.destroy({ where: { uid } })
 
-      return res.status(200).json('O programa e seus episódios foram deletados e não poderão ser recuperados.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/shows/${uid}`,
+          rel: 'get_show',
+          method: 'GET'
+        },
+        {
+          href: `${host}/shows/${uid}`,
+          rel: 'patch_update_show',
+          method: 'PATCH'
+        }
+      ]
+
+      return res.status(200).json({
+        response: 'O programa e seus episódios foram deletados e não poderão ser recuperados.',
+        _links
+      })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -183,8 +256,27 @@ class ShowController {
           if (userFollows) {
             return res.status(406).json('Você já segue este programa.')
           } else {
+            const host = process.env.HOST
+            const _links = [
+              {
+                href: `${host}/shows/${uid}/follow`,
+                rel: 'delete_follow_show',
+                method: 'DELETE'
+              },
+              {
+                href: `${host}/shows/${uid}/following`,
+                rel: 'get_following_show',
+                method: 'GET'
+              },
+              {
+                href: `${host}/shows/${uid}/followers`,
+                rel: 'get_follower_count_show',
+                method: 'GET'
+              }
+            ]
+
             await user.addFollowing(show)
-            return res.status(201).json('Você começou a seguir este programa.')
+            return res.status(201).json({ response: 'Você começou a seguir este programa.', _links })
           }
         }
       } catch {
@@ -214,8 +306,27 @@ class ShowController {
           const userFollows = user.following.some(userFollowsFilter)
 
           if (userFollows) {
+            const host = process.env.HOST
+            const _links = [
+              {
+                href: `${host}/shows/${uid}/follow`,
+                rel: 'post_follow_show',
+                method: 'POST'
+              },
+              {
+                href: `${host}/shows/${uid}/following`,
+                rel: 'get_following_show',
+                method: 'GET'
+              },
+              {
+                href: `${host}/shows/${uid}/followers`,
+                rel: 'get_follower_count_show',
+                method: 'GET'
+              }
+            ]
+
             await user.removeFollowing(show)
-            return res.status(200).json('Você deixou de seguir este programa.')
+            return res.status(200).json({ response: 'Você deixou de seguir este programa.', _links })
           } else {
             return res.status(406).json('Você não segue este programa.')
           }
@@ -245,7 +356,26 @@ class ShowController {
 
           const followerCount = users.count
 
-          return res.status(200).json(followerCount)
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/shows/${uid}/follow`,
+              rel: 'post_follow_show',
+              method: 'POST'
+            },
+            {
+              href: `${host}/shows/${uid}/following`,
+              rel: 'get_following_show',
+              method: 'GET'
+            },
+            {
+              href: `${host}/shows/${uid}/follow`,
+              rel: 'delete_follow_show',
+              method: 'DELETE'
+            }
+          ]
+
+          return res.status(200).json({ response: followerCount, _links })
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -270,10 +400,29 @@ class ShowController {
             include: { association: 'following', where: { uid } }
           })
 
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/shows/${uid}/follow`,
+              rel: 'post_follow_show',
+              method: 'POST'
+            },
+            {
+              href: `${host}/shows/${uid}/followers`,
+              rel: 'get_follower_count_show',
+              method: 'GET'
+            },
+            {
+              href: `${host}/shows/${uid}/follow`,
+              rel: 'delete_follow_show',
+              method: 'DELETE'
+            }
+          ]
+
           if (user === undefined || user === null) {
-            return res.status(200).json(false)
+            return res.status(200).json({ response: false, _links })
           } else {
-            return res.status(200).json(true)
+            return res.status(200).json({ response: true, _links })
           }
         }
       } catch {

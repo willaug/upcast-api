@@ -6,7 +6,7 @@ class CategoryController {
     try {
       const categories = await Category.findAll()
 
-      return res.status(200).json(categories)
+      return res.status(200).json({ response: categories })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -21,7 +21,21 @@ class CategoryController {
       if (category === undefined || category === null) {
         return res.status(404).json('Categoria não encontrada.')
       } else {
-        return res.status(200).json(category)
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/categories`,
+            rel: 'get_all_categories',
+            method: 'GET'
+          },
+          {
+            href: `${host}/categories/${category.slug}/shows`,
+            rel: 'get_category_shows',
+            method: 'GET'
+          }
+        ]
+
+        return res.status(200).json({ response: category, _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -42,7 +56,21 @@ class CategoryController {
       if (shows === undefined || shows === null) {
         return res.status(404).json('Categoria não encontrada.')
       } else {
-        return res.status(200).json(shows)
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/categories`,
+            rel: 'get_all_categories',
+            method: 'GET'
+          },
+          {
+            href: `${host}/categories/${slug}`,
+            rel: 'get_category',
+            method: 'GET'
+          }
+        ]
+
+        return res.status(200).json({ response: shows, _links })
       }
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')

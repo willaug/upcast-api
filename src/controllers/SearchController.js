@@ -18,6 +18,13 @@ class SearchController {
         type = 'all'
       }
 
+      const allowedTypes = ['users', 'categories', 'shows', 'episodes', 'playlists', 'all']
+      const invalidType = !allowedTypes.includes(type)
+
+      if (invalidType) {
+        return res.status(400).json('Tipo de busca inválida.')
+      }
+
       let users, categories, shows, episodes, playlists
 
       try {
@@ -56,7 +63,41 @@ class SearchController {
           })
         }
 
-        return res.status(200).json({ users, categories, shows, episodes, playlists })
+        const host = process.env.HOST
+        const _links = [
+          {
+            href: `${host}/search?query=${query}&type=all`,
+            rel: 'search_all',
+            method: 'GET'
+          },
+          {
+            href: `${host}/search?query=${query}&type=users`,
+            rel: 'search_users',
+            method: 'GET'
+          },
+          {
+            href: `${host}/search?query=${query}&type=categories`,
+            rel: 'search_categories',
+            method: 'GET'
+          },
+          {
+            href: `${host}/search?query=${query}&type=shows`,
+            rel: 'search_shows',
+            method: 'GET'
+          },
+          {
+            href: `${host}/search?query=${query}&type=episodes`,
+            rel: 'search_episodes',
+            method: 'GET'
+          },
+          {
+            href: `${host}/search?query=${query}&type=playlists`,
+            rel: 'search_playlists',
+            method: 'GET'
+          }
+        ]
+
+        return res.status(200).json({ response: { users, categories, shows, episodes, playlists }, _links })
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
       }

@@ -1,7 +1,3 @@
-const dotEnv = require('dotenv').config()
-const dotEnvExpand = require('dotenv-expand')
-dotEnvExpand(dotEnv)
-
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 

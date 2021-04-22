@@ -11,7 +11,16 @@ class PlaylistController {
         include: { association: 'author', attributes: ['uid', 'username', 'url_photo'] }
       })
 
-      return res.status(200).json(playlist)
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/playlists`,
+          rel: 'post_playlist',
+          method: 'POST'
+        }
+      ]
+
+      return res.status(200).json({ response: playlist, _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -26,7 +35,26 @@ class PlaylistController {
 
       await Playlist.create({ uid, user_uid: userUid, title })
 
-      return res.status(201).json('Playlist criada.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'get_playlist',
+          method: 'GET'
+        },
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'patch_update_playlist',
+          method: 'PATCH'
+        },
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'delete_playlist',
+          method: 'DELETE'
+        }
+      ]
+
+      return res.status(201).json({ response: 'Playlist criada.', _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -55,7 +83,21 @@ class PlaylistController {
         if (playlist === undefined || playlist === null) {
           return res.status(404).json('Playlist não encontrada.')
         } else {
-          return res.status(200).json(playlist)
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/playlists/${uid}`,
+              rel: 'patch_update_playlist',
+              method: 'PATCH'
+            },
+            {
+              href: `${host}/playlists/${uid}`,
+              rel: 'delete_playlist',
+              method: 'DELETE'
+            }
+          ]
+
+          return res.status(200).json({ response: playlist, _links })
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -70,7 +112,21 @@ class PlaylistController {
     try {
       await Playlist.update({ title }, { where: { uid } })
 
-      return res.status(200).json('Alteração concluída com sucesso.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'get_playlist',
+          method: 'GET'
+        },
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'delete_playlist',
+          method: 'DELETE'
+        }
+      ]
+
+      return res.status(200).json({ response: 'Alteração concluída com sucesso.', _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -82,7 +138,21 @@ class PlaylistController {
     try {
       await Playlist.destroy({ where: { uid } })
 
-      return res.status(200).json('Playlist deletada com sucesso.')
+      const host = process.env.HOST
+      const _links = [
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'get_playlist',
+          method: 'GET'
+        },
+        {
+          href: `${host}/playlists/${uid}`,
+          rel: 'patch_update_playlist',
+          method: 'PATCH'
+        }
+      ]
+
+      return res.status(200).json({ response: 'Playlist deletada com sucesso.', _links })
     } catch {
       return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
     }
@@ -112,7 +182,19 @@ class PlaylistController {
           const playlist = await Playlist.findByPk(uid)
           await episodeFound.addPlaylist(playlist)
 
-          return res.status(201).json('Episódio adicionado na playlist com sucesso.')
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/playlists/${uid}/item/id`,
+              rel: 'delete_removeItem',
+              method: 'DELETE'
+            }
+          ]
+
+          return res.status(201).json({
+            response: 'Episódio adicionado na playlist com sucesso.',
+            _links
+          })
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
@@ -137,7 +219,16 @@ class PlaylistController {
           const episode = await Episode.findByPk(playlist.episodes[0].uid)
           await episode.removePlaylist(playlist)
 
-          return res.status(200).json('Episódio removido da playlist com sucesso.')
+          const host = process.env.HOST
+          const _links = [
+            {
+              href: `${host}/playlists/${uid}/item`,
+              rel: 'post_addItem',
+              method: 'POST'
+            }
+          ]
+
+          return res.status(200).json({ response: 'Episódio removido da playlist com sucesso.', _links })
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
