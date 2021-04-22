@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const nodemailer = require('nodemailer')
 const bcrypt = require('bcrypt')
 const moment = require('moment')
