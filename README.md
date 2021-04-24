@@ -81,7 +81,7 @@ URL base padrão:
   - Endpoint: `/users`
   - Método: `GET`
   - Sucesso:
-    - Status: 200;
+    - Status: `200`;
     - Resposta:
     ```json
       {
@@ -107,8 +107,212 @@ URL base padrão:
       }
     ```
   - Erro:
-    - Status: 500;
+    - Status: `500`;
     - Resposta:
     ```json
     "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
     ```
+
+- **Criar usuário:**
+  - Endpoint: `/users`
+  - Método: `POST`
+  - Sucesso:
+    - Status: `201`;
+    - Resposta:
+    ```json
+    {
+      "response": "Seja bem-vindo(a) Lorem Ipsum",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/users/GdizGlbWamHjTYRdbbOf",
+          "rel": "get_user",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/GdizGlbWamHjTYRdbbOf/playlists",
+          "rel": "get_user_playlists",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/GdizGlbWamHjTYRdbbOf/shows",
+          "rel": "get_user_shows",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "É necessário possuir um nome de usuário",
+        "É necessário possuir um e-mail válido",
+        "Adicione uma senha de pelo menos 8 caracteres"
+      ]
+      ```
+      ou
+
+      ```json
+      "E-mail já existente!"
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter usuário específico:**
+  - Endpoint: `/users/:uid`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "uid": "UXfLYYE5BYsH2GwCY392",
+        "username": "Upcast Official",
+        "url_photo": "/images/users/default.svg",
+        "createdAt": "2021-04-22T15:44:09.000Z"
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/users",
+          "rel": "get_all_users",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392/playlists",
+          "rel": "get_user_playlists",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392/shows",
+          "rel": "get_user_shows",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Usuário não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter programas de um usuário específico:**
+  - Endpoint: `/users/:uid/shows`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "UhPETxPfk1MYAMV80am6",
+          "title": "MyCAST",
+          "description": null,
+          "url_photo": "/images/shows/default.svg"
+        }
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/users",
+          "rel": "get_all_users",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392",
+          "rel": "get_user",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392/playlists",
+          "rel": "get_user_playlists",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Usuário não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter playlists de um usuário específico:**
+  - Endpoint: `/users/:uid/playlists`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "iRvHq06vbYkNXOA4gbTy",
+          "title": "Ouvir enquanto trabalho"
+        }
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/users",
+          "rel": "get_all_users",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392",
+          "rel": "get_user",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/users/UXfLYYE5BYsH2GwCY392/shows",
+          "rel": "get_user_shows",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Usuário não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
