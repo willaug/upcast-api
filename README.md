@@ -77,79 +77,79 @@ Para ter maior compatibilidade com diversos aplicativos, todas as respostas poss
 URL base padrão:
 
 ### Pesquisa
-  - **Obter pesquisa:**
-    - Endpoint: `/search`
-    - Query: `query` (Obrigatório) e `type` (Opcional)
-    - Método: `GET`
-    - Sucesso:
-      - Status: `200`;
+- **Obter pesquisa:**
+  - Endpoint: `/search`
+  - Query: `query` (Obrigatório) e `type` (Opcional)
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "users": [
+          {
+            "uid": "UXfLYYE5BYsH2GwCY392",
+            "username": "Upcast Official",
+            "url_photo": "/images/users/default.svg"
+          }
+        ],
+        "categories": [],
+        "shows": [],
+        "episodes": [],
+        "playlists": []
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=all",
+          "rel": "search_all",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=users",
+          "rel": "search_users",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=categories",
+          "rel": "search_categories",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=shows",
+          "rel": "search_shows",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=episodes",
+          "rel": "search_episodes",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/search?query=up&type=playlists",
+          "rel": "search_playlists",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
       - Resposta:
       ```json
-      {
-        "response": {
-          "users": [
-            {
-              "uid": "UXfLYYE5BYsH2GwCY392",
-              "username": "Upcast Official",
-              "url_photo": "/images/users/default.svg"
-            }
-          ],
-          "categories": [],
-          "shows": [],
-          "episodes": [],
-          "playlists": []
-        },
-        "_links": [
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=all",
-            "rel": "search_all",
-            "method": "GET"
-          },
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=users",
-            "rel": "search_users",
-            "method": "GET"
-          },
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=categories",
-            "rel": "search_categories",
-            "method": "GET"
-          },
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=shows",
-            "rel": "search_shows",
-            "method": "GET"
-          },
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=episodes",
-            "rel": "search_episodes",
-            "method": "GET"
-          },
-          {
-            "href": "http://127.0.0.1:3000/search?query=up&type=playlists",
-            "rel": "search_playlists",
-            "method": "GET"
-          }
-        ]
-      }
+      "É necessário digitar algo para buscar."
       ```
-    - Erro:
-      - Status: `400`;
-        - Resposta:
-        ```json
-        "É necessário digitar algo para buscar."
-        ```
 
-        ou
+      ou
 
-        ```json
-        "Tipo de busca inválido."
-        ```
-      - Status: `500`;
-        - Resposta:
-        ```json
-        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-        ```
+      ```json
+      "Tipo de busca inválido."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
 
 ### Usuário
 - **Obter todos os usuários:**
@@ -183,10 +183,10 @@ URL base padrão:
     ```
   - Erro:
     - Status: `500`;
-    - Resposta:
-    ```json
-    "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-    ```
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
 
 - **Criar usuário:**
   - Endpoint: `/users`
@@ -800,7 +800,7 @@ URL base padrão:
       "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
       ```
 
-### Recuperação de senha:
+### Recuperação de senha
 - **Enviar pedido de recuperação:**
   - Endpoint: `/password-reset`
   - Campos: `email`
@@ -866,7 +866,7 @@ URL base padrão:
   - Campos: `password, confirmPassword`
   - Método: `PATCH`
   - Sucesso:
-    - Status: `204`,
+    - Status: `200`,
     - Resposta:
     ```json
     "Senha alterada com sucesso."
@@ -901,4 +901,616 @@ URL base padrão:
       - Resposta:
       ```json
       "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+### Programa
+- **Obter todos os programas:**
+  - Endpoint: `/shows`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`,
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "exFgjX9wZNcR06FjswCk",
+          "title": "MyCAST",
+          "url_photo": "/images/shows/default.svg",
+          "author": {
+            "uid": "DBIJkgb9mWGLEQayAgI7",
+            "username": "Lorem Ipsum"
+          },
+          "category": {
+            "name": "Bate-papo e entrevista",
+            "slug": "bate-papo-e-entrevista"
+          }
+        },
+        {
+          "uid": "Mkyew76RmodMBJ3a3dlD",
+          "title": "Desenvolvimento de APIs",
+          "url_photo": "/images/shows/default.svg",
+          "author": {
+            "uid": "DBIJkgb9mWGLEQayAgI7",
+            "username": "Lorem Ipsum"
+          },
+          "category": {
+            "name": "Educação e formação",
+            "slug": "educacao-e-formacao"
+          }
+        }
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows",
+          "rel": "post_create_show",
+          "method": "POST"
+        }
+      ]
+    }
+    ```
+  - Erro:
+      - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Criar programa:**
+  - Endpoint: `/shows`
+  - Método: `POST`
+  - Campos: `title, category, description (Opcional)`
+  - Sucesso:
+    - Status: `201`;
+    - Resposta:
+    ```json
+    {
+      "response": "Programa criado com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC",
+          "rel": "get_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC",
+          "rel": "patch_update_show",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC",
+          "rel": "delete_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "Adicione um título de, pelo menos, 3 caracteres",
+        "É necessário adicionar uma categoria válida"
+      ]
+      ```
+
+      ou
+
+      ```json
+      "Categoria inexistente!"
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização expirou, autentique-se novamente."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter programa específico:**
+  - Endpoint: `/shows/:uid`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "uid": "exFgjX9wZNcR06FjswCk",
+        "title": "MyCAST",
+        "url_photo": "/images/shows/default.svg",
+        "description": null,
+        "createdAt": "2021-04-24T03:39:27.000Z",
+        "author": {
+          "uid": "DBIJkgb9mWGLEQayAgI7",
+          "username": "Lorem Ipsum",
+          "url_photo": "/images/users/default.svg"
+        },
+        "category": {
+          "name": "Bate-papo e entrevista",
+          "slug": "bate-papo-e-entrevista"
+        },
+        "episodes": []
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "patch_update_show",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "delete_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Programa não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Alterar informações de um programa:**
+  - Endpoint: `/shows/:uid`
+  - Parâmetro: `uid`
+  - Campos: `title, description, photo (Upload), category` (Opcionais)
+  - Método: `PATCH`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Alterações concluídas com sucesso",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "get_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "delete_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+
+    ou
+
+    ```json
+    {
+      "response": "Imagem adicionada com sucesso",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "get_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "delete_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      [
+        "Ao redefinir um título deve-se ter, pelo menos, 3 caracteres",
+        "É necessário redefinir uma categoria válida"
+      ]
+      ```
+
+      ou
+
+      ```json
+      "A categoria escolhida não existe."
+      ```
+
+      ou
+
+      ```json
+      "Programa não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar este programa."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `406`;
+      - Resposta:
+      ```json
+      "O programa não possui uma imagem definida"
+      ```
+    - Status: `413`;
+      - Resposta:
+      ```json
+      "Envie uma imagem com até 2 MB"
+      ```
+    - Status: `415`;
+      - Resposta:
+      ```json
+      "Apenas imagens em png, jpeg e jpg são suportadas"
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Deletar um programa:**
+  - Endpoint: `/shows/:uid`
+  - Parâmetro: `uid`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "O programa e seus episódios foram deletados e não poderão ser recuperados.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "get_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/exFgjX9wZNcR06FjswCk",
+          "rel": "patch_update_show",
+          "method": "PATCH"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+      
+      ```json
+      "Programa não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar este programa."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Estou seguindo o programa?:**
+- Endpoint: `/shows/:uid/following`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": false,
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "post_follow_show",
+          "method": "POST"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+          "rel": "get_follower_count_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "delete_follow_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+      
+      ```json
+      "Programa não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Quantos seguidores o programa possui?:**
+- Endpoint: `/shows/:uid/followers`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": 0,
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "post_follow_show",
+          "method": "POST"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+          "rel": "get_following_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "delete_follow_show",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+      
+      ```json
+      "Programa não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Seguir programa:**
+- Endpoint: `/shows/:uid/follow`
+  - Parâmetro: `uid`
+  - Método: `POST`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Você começou a seguir este programa.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "delete_follow_show",
+          "method": "DELETE"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+          "rel": "get_following_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+          "rel": "get_follower_count_show",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+      
+      ```json
+      "O programa que você quer seguir não existe."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `406`;
+      - Resposta:
+      ```json
+      "Você já segue este programa."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Deixar de seguir programa:**
+- Endpoint: `/shows/:uid/follow`
+  - Parâmetro: `uid`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Você deixou de seguir este programa.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+          "rel": "post_follow_show",
+          "method": "POST"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+          "rel": "get_following_show",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+          "rel": "get_follower_count_show",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+      
+      ```json
+      "O programa que você quer deixar de seguir não existe."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `406`;
+      - Resposta:
+      ```json
+      "Você já segue este programa."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
       ```
