@@ -1864,3 +1864,439 @@ URL base padrão:
       ```json
       "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
       ```
+
+### Playlist
+- **Obter todas as playlists:**
+  - Endpoint: `/playlists`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "hoJIeKD1sMdwpJIqKZWE",
+          "title": "Ouvir enquanto trabalho",
+          "author": {
+            "uid": "DBIJkgb9mWGLEQayAgI7",
+            "username": "Lorem Ipsum",
+            "url_photo": "/images/users/default.svg"
+          }
+        },
+        {
+          "uid": "JKW1ND3DgKdHZaSCuGHt",
+          "title": "Meus favoritos",
+          "author": {
+            "uid": "DBIJkgb9mWGLEQayAgI7",
+            "username": "Lorem Ipsum",
+            "url_photo": "/images/users/default.svg"
+          }
+        }
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists",
+          "rel": "post_playlist",
+          "method": "POST"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+
+- **Criar playlist:**
+  - Endpoint: `/playlists`
+  - Método: `POST`
+  - Campos: `title`
+  - Sucesso:
+    - Status: `201`;
+    - Resposta:
+    ```json
+    {
+      "response": "Playlist criada.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/JKW1ND3DgKdHZaSCuGHt",
+          "rel": "get_playlist",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/playlists/JKW1ND3DgKdHZaSCuGHt",
+          "rel": "patch_update_playlist",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/playlists/JKW1ND3DgKdHZaSCuGHt",
+          "rel": "delete_playlist",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "Você deve adicionar um título."
+      ]
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização expirou, autentique-se novamente."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter playlist específica:**
+  - Endpoint: `/playlists/:uid`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "uid": "hoJIeKD1sMdwpJIqKZWE",
+        "title": "Ouvir enquanto trabalho",
+        "createdAt": "2021-04-24T15:43:24.000Z",
+        "updatedAt": "2021-04-24T15:43:24.000Z",
+        "author": {
+          "uid": "DBIJkgb9mWGLEQayAgI7",
+          "username": "Lorem Ipsum",
+          "url_photo": "/images/users/default.svg"
+        },
+        "episodes": []
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "patch_update_playlist",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "delete_playlist",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Playlist não encontrada."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Alterar informações de uma playlist:**
+  - Endpoint: `/playlists/:uid`
+  - Parâmetro: `uid`
+  - Campos: `title`
+  - Método: `PATCH`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Alteração concluída com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "get_playlist",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "delete_playlist",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      [
+        "Você deve adicionar um título."
+      ]
+      ```
+
+      ou
+
+      ```json
+      "Playlist não encontrada."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar esta playlist."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Adicionar um item na playlist:**
+  - Endpoint: `/playlists/:uid/item`
+  - Parâmetro: `uid`
+  - Campos: `episode`
+  - Método: `POST`
+  - Sucesso:
+    - Status: `201`;
+    - Resposta:
+    ```json
+    {
+      "response": "Episódio adicionado na playlist com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE/item/id",
+          "rel": "delete_removeItem",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "É necessário adicionar um episódio válido."
+      ```
+
+      ou
+
+      ```json
+      "Playlist não encontrada."
+      ```
+
+      ou
+
+      ```json
+      "O episódio que você quer adicionar não existe."
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar esta playlist."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `406`;
+      - Resposta:
+      ```json
+      "Você já possui este episódio adicionado em sua playlist."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Remover um item na playlist:**
+  - Endpoint: `/playlists/:uid/item/:id`
+  - Parâmetro: `uid, id`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Episódio removido da playlist com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/iRvHq06vbYkNXOA4gbTy/item",
+          "rel": "post_addItem",
+          "method": "POST"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Playlist não encontrada."
+      ```
+      
+      ou
+
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?'"
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar esta playlist."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `406`;
+      - Resposta:
+      ```json
+      "O item mencionado não existe na playlist."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+
+- **Remover uma playlist:**
+  - Endpoint: `/playlists/:uid`
+  - Parâmetro: `uid`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Playlist deletada com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "get_playlist",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/playlists/hoJIeKD1sMdwpJIqKZWE",
+          "rel": "patch_update_playlist",
+          "method": "PATCH"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Playlist não encontrada."
+      ```
+      
+      ou
+
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?'"
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar esta playlist."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```

@@ -171,12 +171,14 @@ class PlaylistController {
           include: { association: 'playlist' }
         })
 
+        if (episodeFound === undefined || episodeFound === null) {
+          return res.status(400).json('O episódio que você quer adicionar não existe.')
+        }
+
         const playlistItemsFilter = episode => (episode.uid = uid)
         const playlistItem = episodeFound.playlist.some(playlistItemsFilter)
 
-        if (episodeFound === undefined || episodeFound === null) {
-          return res.status(400).json('O episódio que você quer adicionar não existe.')
-        } else if (playlistItem) {
+        if (playlistItem) {
           return res.status(406).json('Você já possui este episódio adicionado em sua playlist.')
         } else {
           const playlist = await Playlist.findByPk(uid)
@@ -214,7 +216,7 @@ class PlaylistController {
         })
 
         if (playlist.episodes.length === 0) {
-          return res.status(400).json('O item mencionado não existe na playlist.')
+          return res.status(406).json('O item mencionado não existe na playlist.')
         } else {
           const episode = await Episode.findByPk(playlist.episodes[0].uid)
           await episode.removePlaylist(playlist)
