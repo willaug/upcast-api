@@ -573,17 +573,6 @@ URL base padrão:
       ```json
       "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
       ```
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
-
-      ou
-
-      ```json
-      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
-      ```
     - Status: `413`;
       - Resposta:
       ```json
@@ -657,4 +646,156 @@ URL base padrão:
 
       ```json
       "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+### Categoria
+- **Obter todas as categorias:**
+  - Endpoint: `/categories`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "id": 1,
+          "name": "Bate-papo e entrevista",
+          "slug": "bate-papo-e-entrevista"
+        },
+        {
+          "id": 2,
+          "name": "Conteúdo adulto",
+          "slug": "conteudo-adulto"
+        },
+        {
+          "id": 3,
+          "name": "Convívio e espiritualidade",
+          "slug": "convivio-e-espiritualidade"
+        },
+        {
+          "id": 4,
+          "name": "Educação e formação",
+          "slug": "educacao-e-formacao"
+        },
+        {
+          "id": 5,
+          "name": "Geral",
+          "slug": "geral"
+        },
+        {
+          "id": 6,
+          "name": "Infantil",
+          "slug": "infantil"
+        },
+        {
+          "id": 7,
+          "name": "Notícia e informação",
+          "slug": "noticia-e-informacao"
+        },
+        {
+          "id": 8,
+          "name": "Saúde e bem-estar",
+          "slug": "saude-e-bem-estar"
+        },
+        {
+          "id": 9,
+          "name": "Storytelling",
+          "slug": "storytelling"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter categoria específica:**
+  - Endpoint: `/categories/:slug`
+  - Parâmetros: `slug`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "id": 1,
+        "name": "Bate-papo e entrevista",
+        "slug": "bate-papo-e-entrevista"
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/categories",
+          "rel": "get_all_categories",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/categories/bate-papo-e-entrevista/shows",
+          "rel": "get_category_shows",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Categoria não encontrada."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Programas de categoria específica:**
+  - Endpoint: `/categories/:slug/shows`
+  - Parâmetros: `slug`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "exFgjX9wZNcR06FjswCk",
+          "title": "MyCAST",
+          "url_photo": "/images/shows/default.svg",
+          "author": {
+            "uid": "DBIJkgb9mWGLEQayAgI7",
+            "url_photo": "/images/users/default.svg",
+            "username": "Lorem Ipsum"
+          }
+        }
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/categories",
+          "rel": "get_all_categories",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/categories/bate-papo-e-entrevista",
+          "rel": "get_category",
+          "method": "GET"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Categoria não encontrada."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
       ```
