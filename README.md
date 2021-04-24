@@ -1302,7 +1302,7 @@ URL base padrão:
       ou
       
       ```json
-      "Programa não encontrado."
+      "O programa não existe."
       ```
 
     - Status: `403`;
@@ -1367,7 +1367,7 @@ URL base padrão:
       ou
       
       ```json
-      "Programa não encontrado."
+      "O programa não existe."
       ```
     - Status: `500`;
       - Resposta:
@@ -1502,6 +1502,356 @@ URL base padrão:
       - Resposta:
       ```json
       "Você já segue este programa."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+### Episódio
+- **Obter todos os episódios:**
+- Endpoint: `/episodes`
+- Método: `GET`
+- Sucesso:
+  - Status: `200`;
+  - Resposta:
+  ```json
+  {
+    "response": [
+      {
+        "uid": "kjCSQ0qXdcDkuSX7EK6V",
+        "title": "Episódio 2",
+        "duration": "00:00:00",
+        "show": {
+          "uid": "LuGGHvnMQhb5C0FbN2pC",
+          "title": "Conversa com desenvolvedores"
+        }
+      },
+      {
+        "uid": "rgg0D1Hysal0LWtkzMDD",
+        "title": "Episódio 1",
+        "duration": "00:00:00",
+        "show": {
+          "uid": "LuGGHvnMQhb5C0FbN2pC",
+          "title": "Conversa com desenvolvedores"
+        }
+      }
+    ],
+    "_links": [
+      {
+        "href": "http://127.0.0.1:3000/episodes",
+        "rel": "post_create_episode",
+        "method": "POST"
+      }
+    ]
+  }
+  ```
+  - Erro:
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Criar episódio:**
+  - Endpoint: `/episodes`
+  - Método: `POST`
+  - Campos: `show, title, description`
+  - Sucesso:
+    - Status: `201`;
+    - Resposta:
+    ```json
+    {
+      "response": "Episódio criado.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes",
+          "rel": "get_all_episodes",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "get_episode",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "update_episode",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "delete_episode",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "É necessário adicionar um programa válido",
+        "Adicione um título de, pelo menos, 5 caracteres"
+      ]
+      ```
+
+      ou
+      
+      ```json
+      "Programa não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar este programa."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Obter episódio específico:**
+  - Endpoint: `/episodes/:uid`
+  - Parâmetro: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "uid": "kjCSQ0qXdcDkuSX7EK6V",
+        "title": "Episódio 2",
+        "description": null,
+        "url_audio": "/audios/8KWBuMAKbiwfeUV1ve16.mp3",
+        "duration": "00:04:26",
+        "createdAt": "2021-04-24T14:06:48.000Z",
+        "show": {
+          "uid": "LuGGHvnMQhb5C0FbN2pC",
+          "title": "Conversa com desenvolvedores",
+          "url_photo": "/images/shows/default.svg"
+        }
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "patch_update_episode",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "delete_episode",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+    - Status: `404`;
+      - Resposta:
+      ```json
+      "Episódio não encontrado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Alterar informações de um episódio:**
+  - Endpoint: `/episodes/:uid`
+  - Parâmetro: `uid`
+  - Campos: `title, description, audio (Upload)` (Opcionais)
+  - Método: `PATCH`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Aúdio adicionado com sucesso.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "get_episode",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "delete_episode",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+
+    ou
+
+    ```json
+    {
+      "response": "Alterações concluídas.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "get_episode",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "delete_episode",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      [
+        "É necessário adicionar um programa válido",
+        "Adicione um título de, pelo menos, 5 caracteres"
+      ]
+      ```
+
+      ou
+
+      ```json
+      "O programa escolhido não existe."
+      ```
+
+      ou
+
+      ```json
+      "Episódio não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar este episódio."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `415`;
+      - Resposta:
+      ```json
+      "Apenas alguns tipos de aúdio são suportados, são eles: mp3 (mpeg), mp4, ogg, flac e wav"
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Deletar um episódio:**
+  - Endpoint: `/episodes/:uid`
+  - Parâmetro: `uid`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Episódio removido.",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "get_episode",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/episodes/kjCSQ0qXdcDkuSX7EK6V",
+          "rel": "patch_update_episode",
+          "method": "PATCH"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Episódio não encontrado."
+      ```
+
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Você não tem permissão para alterar este episódio."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
       ```
     - Status: `500`;
       - Resposta:
