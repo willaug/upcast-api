@@ -799,3 +799,106 @@ URL base padrão:
       ```json
       "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
       ```
+
+### Recuperação de senha:
+- **Enviar pedido de recuperação:**
+  - Endpoint: `/password-reset`
+  - Campos: `email`
+  - Método: `POST`
+  - Sucesso:
+    - Status: `201`,
+    - Resposta:
+    ```json
+    "Pedido de recuperação criado com sucesso, verifique seu e-mail."
+    ```
+  - Erro:
+    - Status: `400`
+      - Resposta:
+      ```json
+      [
+        "É necessário possuir um e-mail válido"
+      ]
+      ```
+    - Status: `403`
+      - Resposta:
+      ```json
+      "O e-mail informado não pertence a uma conta."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Verificar pedido de recuperação:**
+  - Endpoint: `/password-reset/:uid`
+  - Parâmetros: `uid`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `204`,
+    - Resposta: `Sem resposta`
+  - Erro:
+    - Status: `400`
+      - Resposta:
+      ```json
+      "Token de recuperação de senha não encontrado."
+      ```
+    - Status: `403`
+      - Resposta:
+      ```json
+      "Token de recuperação de senha já utilizado."
+      ```
+
+      ou
+
+      ```json
+      "Token de recuperação de senha expirado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Adicionar nova senha:**
+  - Endpoint: `/password-reset/:uid`
+  - Parâmetros: `uid`
+  - Campos: `password, confirmPassword`
+  - Método: `PATCH`
+  - Sucesso:
+    - Status: `204`,
+    - Resposta:
+    ```json
+    "Senha alterada com sucesso."
+    ```
+  - Erro:
+    - Status: `400`
+      - Resposta:
+      ```json
+      "Token de recuperação de senha não encontrado."
+      ```
+
+      ou
+
+      ```json
+      [
+        "Defina uma nova senha com pelo menos 8 caracteres",
+        "A confirmação de senha deve ser igual a definição de nova senha"
+      ]
+      ```
+    - Status: `403`
+      - Resposta:
+      ```json
+      "Token de recuperação de senha já utilizado."
+      ```
+
+      ou
+
+      ```json
+      "Token de recuperação de senha expirado."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
