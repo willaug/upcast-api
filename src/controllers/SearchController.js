@@ -22,7 +22,7 @@ class SearchController {
       const invalidType = !allowedTypes.includes(type)
 
       if (invalidType) {
-        return res.status(400).json('Tipo de busca inválida.')
+        return res.status(400).json('Tipo de busca inválido.')
       }
 
       let users, categories, shows, episodes, playlists
@@ -31,7 +31,7 @@ class SearchController {
         if (type === 'users' || type === 'all') {
           users = await User.findAll({
             where: { username: { [Op.substring]: query } },
-            attributes: ['uid', 'url_photo', 'username']
+            attributes: ['uid', 'username', 'url_photo']
           })
         }
 

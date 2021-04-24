@@ -76,6 +76,81 @@ Para ter maior compatibilidade com diversos aplicativos, todas as respostas poss
 
 URL base padrão:
 
+### Pesquisa
+  - **Obter pesquisa:**
+    - Endpoint: `/search`
+    - Query: `query` (Obrigatório) e `type` (Opcional)
+    - Método: `GET`
+    - Sucesso:
+      - Status: `200`;
+      - Resposta:
+      ```json
+      {
+        "response": {
+          "users": [
+            {
+              "uid": "UXfLYYE5BYsH2GwCY392",
+              "username": "Upcast Official",
+              "url_photo": "/images/users/default.svg"
+            }
+          ],
+          "categories": [],
+          "shows": [],
+          "episodes": [],
+          "playlists": []
+        },
+        "_links": [
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=all",
+            "rel": "search_all",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=users",
+            "rel": "search_users",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=categories",
+            "rel": "search_categories",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=shows",
+            "rel": "search_shows",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=episodes",
+            "rel": "search_episodes",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/search?query=up&type=playlists",
+            "rel": "search_playlists",
+            "method": "GET"
+          }
+        ]
+      }
+      ```
+    - Erro:
+      - Status: `400`;
+        - Resposta:
+        ```json
+        "É necessário digitar algo para buscar."
+        ```
+
+        ou
+
+        ```json
+        "Tipo de busca inválido."
+        ```
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
+
 ### Usuário
 - **Obter todos os usuários:**
   - Endpoint: `/users`
@@ -116,6 +191,7 @@ URL base padrão:
 - **Criar usuário:**
   - Endpoint: `/users`
   - Método: `POST`
+  - Campos: `username, email, password`
   - Sucesso:
     - Status: `201`;
     - Resposta:
@@ -151,6 +227,7 @@ URL base padrão:
         "Adicione uma senha de pelo menos 8 caracteres"
       ]
       ```
+
       ou
 
       ```json
@@ -315,4 +392,269 @@ URL base padrão:
       - Resposta:
       ```json
       "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+### Conta do usuário
+- **Autenticação:**
+  - Endpoint: `/authenticate`
+  - Campos: `email, password`
+  - Método: `POST`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta: (Token de JWT)
+    ```json
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJVWGZMWVlFNUJZc0gyR3dDWTM5MiIsImlhdCI6MTYxOTExOTE5NSwiZXhwIjoxNjE5MTM3MTk1fQ.CEnLitkav_hUCkshDDnAtqR0RtQNDNI_1slYEGghapw"
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "É necessário inserir um e-mail válido",
+        "É necessário inserir uma senha de pelo menos 8 caracteres"
+      ]
+      ```
+    - Status: `401`;
+      - Resposta:
+      ```json
+      "Usuário não encontrado. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Senha inválida"
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+- **Obter informações da conta:**
+  - Endpoint: `/account`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": {
+        "uid": "UXfLYYE5BYsH2GwCY392",
+        "username": "Upcast Official",
+        "url_photo": "/images/users/default.svg",
+        "email": "contact@upcast.com",
+        "createdAt": "2021-04-22T15:44:09.000Z",
+        "updatedAt": "2021-04-22T19:28:11.000Z"
+      },
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "patch_update_account",
+          "method": "PATCH"
+        },
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "delete_account",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `401`;
+      - Resposta:
+      ```json
+      "É necessário estar autenticado para continuar."
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização expirou, autentique-se novamente."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Alterar informações da conta:**
+  - Endpoint: `/account`
+  - Campos: `username, email, photo (Upload), action, newPassword, confirmPassword, currentPassword` (Opcionais)
+  - Método: `PATCH`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Alterações concluídas com sucesso",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "get_account",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "delete_account",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+
+    ou
+
+    ```json
+    {
+      "response": "Imagem adicionada com sucesso",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "get_account",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "delete_account",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `400`;
+      - Resposta:
+      ```json
+      [
+        "Redefina um nome de usuário com pelo menos 10 caracteres",
+        "Para alterar o email, é necessário o novo ser um e-mail válido",
+        "A nova senha deve ser de pelo menos 8 caracteres",
+        "Para adicionar uma senha, é necessário confirmar a atual"
+      ]
+      ```
+    - Status: `401`;
+      - Resposta:
+      ```json
+      "A senha atual informada está incorreta"
+      ```
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização expirou, autentique-se novamente."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+    - Status: `413`;
+      - Resposta:
+      ```json
+      "Envie uma imagem com até 2 MB"
+      ```
+    - Status: `415`;
+      - Resposta:
+      ```json
+      "Apenas imagens em png, jpeg e jpg são suportadas"
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+      ```
+
+- **Deletar conta:**
+  - Endpoint: `/account`
+  - Método: `DELETE`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": "Sua conta foi deletada e não poderá ser recuperada. Até breve, Upcast Official!",
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "get_account",
+          "method": "GET"
+        },
+        {
+          "href": "http://127.0.0.1:3000/account",
+          "rel": "delete_account",
+          "method": "DELETE"
+        }
+      ]
+    }
+    ```
+  - Erro:
+    - Status: `403`;
+      - Resposta:
+      ```json
+      "Sua autorização expirou, autentique-se novamente."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização é inválida, autentique-se."
+      ```
+
+      ou
+
+      ```json
+      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+      ```
+    - Status: `500`;
+      - Resposta:
+      ```json
+      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+      ```
+
+      ou
+
+      ```json
+      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
       ```
