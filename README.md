@@ -8,7 +8,9 @@
 Este repositório faz parte do projeto Upcast, uma plataforma fictícia de podcasts, semelhante ao Spotify e que será utilizada pelo aplicativo web **Upcast**.
 
 ## Visão geral
-O objetivo principal da API é dar o poder ao usuário de consumir podcasts em forma de áudio, seguir programas, consultar categorias e criar sua lista de reprodução pessoal. Além disso, o usuário poderá personalizar perfis e programas com miniaturas.
+O objetivo principal da API é dar o poder ao usuário de consumir podcasts em forma de áudio, seguir programas, consultar categorias e criar sua lista de reprodução pessoal. Além disso, o usuário poderá personalizar perfis e programas com miniaturas. 
+Caso deseja entrar em contato:
+  - E-mail: william.santos315@outlook.com
 
 ## Recursos
 - Criar conta de usuário;
@@ -1264,301 +1266,301 @@ URL base padrão:
       ```
 
 - **Estou seguindo o programa?:**
-- Endpoint: `/shows/:uid/following`
-  - Parâmetro: `uid`
-  - Método: `GET`
-  - Sucesso:
-    - Status: `200`;
-    - Resposta:
-    ```json
-    {
-      "response": false,
-      "_links": [
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "post_follow_show",
-          "method": "POST"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
-          "rel": "get_follower_count_show",
-          "method": "GET"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "delete_follow_show",
-          "method": "DELETE"
-        }
-      ]
-    }
-    ```
-  - Erro:
-    - Status: `400`;
+  - Endpoint: `/shows/:uid/following`
+    - Parâmetro: `uid`
+    - Método: `GET`
+    - Sucesso:
+      - Status: `200`;
       - Resposta:
       ```json
-      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      {
+        "response": false,
+        "_links": [
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "post_follow_show",
+            "method": "POST"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+            "rel": "get_follower_count_show",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "delete_follow_show",
+            "method": "DELETE"
+          }
+        ]
+      }
       ```
+    - Erro:
+      - Status: `400`;
+        - Resposta:
+        ```json
+        "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+        ```
 
-      ou
-      
-      ```json
-      "O programa não existe."
-      ```
+        ou
+        
+        ```json
+        "O programa não existe."
+        ```
 
-    - Status: `403`;
-      - Resposta:
-      ```json
-      "Sua autorização é inválida, autentique-se."
-      ```
+      - Status: `403`;
+        - Resposta:
+        ```json
+        "Sua autorização é inválida, autentique-se."
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
-      ```
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
+        ```json
+        "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+        ```
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
-      ```
+        ```json
+        "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+        ```
 
 - **Quantos seguidores o programa possui?:**
-- Endpoint: `/shows/:uid/followers`
-  - Parâmetro: `uid`
-  - Método: `GET`
-  - Sucesso:
-    - Status: `200`;
-    - Resposta:
-    ```json
-    {
-      "response": 0,
-      "_links": [
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "post_follow_show",
-          "method": "POST"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
-          "rel": "get_following_show",
-          "method": "GET"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "delete_follow_show",
-          "method": "DELETE"
-        }
-      ]
-    }
-    ```
-  - Erro:
-    - Status: `400`;
+  - Endpoint: `/shows/:uid/followers`
+    - Parâmetro: `uid`
+    - Método: `GET`
+    - Sucesso:
+      - Status: `200`;
       - Resposta:
       ```json
-      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      {
+        "response": 0,
+        "_links": [
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "post_follow_show",
+            "method": "POST"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+            "rel": "get_following_show",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "delete_follow_show",
+            "method": "DELETE"
+          }
+        ]
+      }
       ```
+    - Erro:
+      - Status: `400`;
+        - Resposta:
+        ```json
+        "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+        ```
 
-      ou
-      
-      ```json
-      "O programa não existe."
-      ```
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
+        ou
+        
+        ```json
+        "O programa não existe."
+        ```
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
 
 - **Seguir programa:**
-- Endpoint: `/shows/:uid/follow`
-  - Parâmetro: `uid`
-  - Método: `POST`
-  - Sucesso:
-    - Status: `200`;
-    - Resposta:
-    ```json
-    {
-      "response": "Você começou a seguir este programa.",
-      "_links": [
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "delete_follow_show",
-          "method": "DELETE"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
-          "rel": "get_following_show",
-          "method": "GET"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
-          "rel": "get_follower_count_show",
-          "method": "GET"
-        }
-      ]
-    }
-    ```
-  - Erro:
-    - Status: `400`;
+  - Endpoint: `/shows/:uid/follow`
+    - Parâmetro: `uid`
+    - Método: `POST`
+    - Sucesso:
+      - Status: `200`;
       - Resposta:
       ```json
-      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      {
+        "response": "Você começou a seguir este programa.",
+        "_links": [
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "delete_follow_show",
+            "method": "DELETE"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+            "rel": "get_following_show",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+            "rel": "get_follower_count_show",
+            "method": "GET"
+          }
+        ]
+      }
       ```
+    - Erro:
+      - Status: `400`;
+        - Resposta:
+        ```json
+        "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+        ```
 
-      ou
-      
-      ```json
-      "O programa que você quer seguir não existe."
-      ```
+        ou
+        
+        ```json
+        "O programa que você quer seguir não existe."
+        ```
 
-    - Status: `403`;
-      - Resposta:
-      ```json
-      "Sua autorização é inválida, autentique-se."
-      ```
+      - Status: `403`;
+        - Resposta:
+        ```json
+        "Sua autorização é inválida, autentique-se."
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
-      ```
-    - Status: `406`;
-      - Resposta:
-      ```json
-      "Você já segue este programa."
-      ```
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
+        ```json
+        "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+        ```
+      - Status: `406`;
+        - Resposta:
+        ```json
+        "Você já segue este programa."
+        ```
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
-      ```
+        ```json
+        "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+        ```
 
 - **Deixar de seguir programa:**
-- Endpoint: `/shows/:uid/follow`
-  - Parâmetro: `uid`
-  - Método: `DELETE`
-  - Sucesso:
-    - Status: `200`;
-    - Resposta:
-    ```json
-    {
-      "response": "Você deixou de seguir este programa.",
-      "_links": [
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
-          "rel": "post_follow_show",
-          "method": "POST"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
-          "rel": "get_following_show",
-          "method": "GET"
-        },
-        {
-          "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
-          "rel": "get_follower_count_show",
-          "method": "GET"
-        }
-      ]
-    }
-    ```
-  - Erro:
-    - Status: `400`;
+  - Endpoint: `/shows/:uid/follow`
+    - Parâmetro: `uid`
+    - Método: `DELETE`
+    - Sucesso:
+      - Status: `200`;
       - Resposta:
       ```json
-      "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+      {
+        "response": "Você deixou de seguir este programa.",
+        "_links": [
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/follow",
+            "rel": "post_follow_show",
+            "method": "POST"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/following",
+            "rel": "get_following_show",
+            "method": "GET"
+          },
+          {
+            "href": "http://127.0.0.1:3000/shows/LuGGHvnMQhb5C0FbN2pC/followers",
+            "rel": "get_follower_count_show",
+            "method": "GET"
+          }
+        ]
+      }
       ```
+    - Erro:
+      - Status: `400`;
+        - Resposta:
+        ```json
+        "Desculpe, mas a sintaxe está incorreta. Que tal tentar novamente?"
+        ```
 
-      ou
-      
-      ```json
-      "O programa que você quer deixar de seguir não existe."
-      ```
+        ou
+        
+        ```json
+        "O programa que você quer deixar de seguir não existe."
+        ```
 
-    - Status: `403`;
-      - Resposta:
-      ```json
-      "Sua autorização é inválida, autentique-se."
-      ```
+      - Status: `403`;
+        - Resposta:
+        ```json
+        "Sua autorização é inválida, autentique-se."
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
-      ```
-    - Status: `406`;
-      - Resposta:
-      ```json
-      "Você já segue este programa."
-      ```
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
+        ```json
+        "Sua autorização não pertence a nenhum usuário, autentique-se novamente."
+        ```
+      - Status: `406`;
+        - Resposta:
+        ```json
+        "Você já segue este programa."
+        ```
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
 
-      ou
+        ou
 
-      ```json
-      "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
-      ```
+        ```json
+        "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
+        ```
 
 ### Episódio
 - **Obter todos os episódios:**
-- Endpoint: `/episodes`
-- Método: `GET`
-- Sucesso:
-  - Status: `200`;
-  - Resposta:
-  ```json
-  {
-    "response": [
-      {
-        "uid": "kjCSQ0qXdcDkuSX7EK6V",
-        "title": "Episódio 2",
-        "duration": "00:00:00",
-        "show": {
-          "uid": "LuGGHvnMQhb5C0FbN2pC",
-          "title": "Conversa com desenvolvedores"
+  - Endpoint: `/episodes`
+  - Método: `GET`
+  - Sucesso:
+    - Status: `200`;
+    - Resposta:
+    ```json
+    {
+      "response": [
+        {
+          "uid": "kjCSQ0qXdcDkuSX7EK6V",
+          "title": "Episódio 2",
+          "duration": "00:00:00",
+          "show": {
+            "uid": "LuGGHvnMQhb5C0FbN2pC",
+            "title": "Conversa com desenvolvedores"
+          }
+        },
+        {
+          "uid": "rgg0D1Hysal0LWtkzMDD",
+          "title": "Episódio 1",
+          "duration": "00:00:00",
+          "show": {
+            "uid": "LuGGHvnMQhb5C0FbN2pC",
+            "title": "Conversa com desenvolvedores"
+          }
         }
-      },
-      {
-        "uid": "rgg0D1Hysal0LWtkzMDD",
-        "title": "Episódio 1",
-        "duration": "00:00:00",
-        "show": {
-          "uid": "LuGGHvnMQhb5C0FbN2pC",
-          "title": "Conversa com desenvolvedores"
+      ],
+      "_links": [
+        {
+          "href": "http://127.0.0.1:3000/episodes",
+          "rel": "post_create_episode",
+          "method": "POST"
         }
-      }
-    ],
-    "_links": [
-      {
-        "href": "http://127.0.0.1:3000/episodes",
-        "rel": "post_create_episode",
-        "method": "POST"
-      }
-    ]
-  }
-  ```
-  - Erro:
-    - Status: `500`;
-      - Resposta:
-      ```json
-      "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
-      ```
+      ]
+    }
+    ```
+    - Erro:
+      - Status: `500`;
+        - Resposta:
+        ```json
+        "Desculpe, mas algum erro ocorreu. Que tal tentar novamente?"
+        ```
 
 - **Criar episódio:**
   - Endpoint: `/episodes`
@@ -2300,3 +2302,27 @@ URL base padrão:
       ```json
       "Ocorreu um erro na verificação de token. Tente novamente mais tarde."
       ```
+
+## Ferramentas
+- [NodeJS](https://nodejs.org/en/) - Servidor
+- [MySQL](https://dev.mysql.com/downloads/mysql/) - Banco de dados
+- [ExpressJS](https://expressjs.com/) - Framework NodeJS
+- [nodemon](https://www.npmjs.com/package/nodemon) - Reinício automático de servidor
+- [standard](https://standardjs.com/) - Formatador padrão de código Javascript
+- [sequelize-cli](https://sequelize.org/) - Gerar ambiente para a manipulação de dados
+- [bcrypt](https://github.com/kelektiv/node.bcrypt.js) - Hash de senhas
+- [CORS](https://github.com/expressjs/cors) - Habilitar CORS no servidor ExpressJS
+- [dotEnv](https://github.com/motdotla/dotenv) - Variáveis de ambiente
+- [dotEnv-expand](https://www.npmjs.com/package/dotenv-expand) - Variáveis em arquivos .env
+- [express-validator](https://www.npmjs.com/package/express-validator) - Middleware de validação de campos
+- [get-audio-duration](https://www.npmjs.com/package/get-audio-duration) - Obter duração de arquivos de áudio
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) - JWT para NodeJS
+- [moment](https://www.npmjs.com/package/moment) - Biblioteca de manipulação de data e hora
+- [moment-duration-format](https://www.npmjs.com/package/moment-duration-format) - Manipulação de duração
+- [multer](https://www.npmjs.com/package/multer) - Upload de arquivos
+- [mysql2](https://www.npmjs.com/package/mysql2) - Driver de MySQL para NodeJS
+- [nanoid](https://www.npmjs.com/package/nanoid) - Gerador de códigos únicos, semelhantes ao UUID
+- [nodemailer](https://www.npmjs.com/package/nodemailer) - Enviar e-mails no NodeJS
+- [sequelize](https://www.npmjs.com/package/sequelize) - ORM para MySQL
+- [sharp](https://www.npmjs.com/package/sharp) - Manipulação de imagens
+- [slugify](https://www.npmjs.com/package/slugify) - Transformar frases em slug (-)
