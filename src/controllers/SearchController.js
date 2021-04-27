@@ -38,7 +38,7 @@ class SearchController {
         if (type === 'categories' || type === 'all') {
           categories = await Category.findAll({
             where: { name: { [Op.substring]: query } },
-            attributes: ['name', 'slug']
+            attributes: ['name', 'slug', 'icon']
           })
         }
 

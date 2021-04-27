@@ -663,47 +663,50 @@ URL base padrão:
         {
           "id": 1,
           "name": "Bate-papo e entrevista",
-          "slug": "bate-papo-e-entrevista"
+          "slug": "bate-papo-e-entrevista",
+          "icon": "/images/categories/chat.svg"
         },
         {
           "id": 2,
           "name": "Conteúdo adulto",
-          "slug": "conteudo-adulto"
+          "slug": "conteudo-adulto",
+          "icon": "/images/categories/adult.svg"
         },
         {
           "id": 3,
           "name": "Convívio e espiritualidade",
-          "slug": "convivio-e-espiritualidade"
+          "slug": "convivio-e-espiritualidade",
+          "icon": "/images/categories/living.svg"
         },
         {
           "id": 4,
           "name": "Educação e formação",
-          "slug": "educacao-e-formacao"
+          "slug": "educacao-e-formacao",
+          "icon": "/images/categories/education.svg"
         },
         {
           "id": 5,
           "name": "Geral",
-          "slug": "geral"
+          "slug": "geral",
+          "icon": "/images/categories/general.svg"
         },
         {
           "id": 6,
           "name": "Infantil",
-          "slug": "infantil"
+          "slug": "infantil",
+          "icon": "/images/categories/kid.svg"
         },
         {
           "id": 7,
           "name": "Notícia e informação",
-          "slug": "noticia-e-informacao"
+          "slug": "noticia-e-informacao",
+          "icon": "/images/categories/news.svg"
         },
         {
           "id": 8,
           "name": "Saúde e bem-estar",
-          "slug": "saude-e-bem-estar"
-        },
-        {
-          "id": 9,
-          "name": "Storytelling",
-          "slug": "storytelling"
+          "slug": "saude-e-bem-estar",
+          "icon": "/images/categories/health.svg"
         }
       ]
     }
@@ -727,7 +730,8 @@ URL base padrão:
       "response": {
         "id": 1,
         "name": "Bate-papo e entrevista",
-        "slug": "bate-papo-e-entrevista"
+        "slug": "bate-papo-e-entrevista",
+        "icon": "/images/categories/chat.svg"
       },
       "_links": [
         {
@@ -925,7 +929,8 @@ URL base padrão:
           },
           "category": {
             "name": "Bate-papo e entrevista",
-            "slug": "bate-papo-e-entrevista"
+            "slug": "bate-papo-e-entrevista",
+            "icon": "/images/categories/chat.svg"
           }
         },
         {
@@ -938,7 +943,8 @@ URL base padrão:
           },
           "category": {
             "name": "Educação e formação",
-            "slug": "educacao-e-formacao"
+            "slug": "educacao-e-formacao",
+            "icon": "/images/categories/education.svg"
           }
         }
       ],
@@ -1047,7 +1053,8 @@ URL base padrão:
         },
         "category": {
           "name": "Bate-papo e entrevista",
-          "slug": "bate-papo-e-entrevista"
+          "slug": "bate-papo-e-entrevista",
+          "icon": "/images/categories/chat.svg"
         },
         "episodes": []
       },

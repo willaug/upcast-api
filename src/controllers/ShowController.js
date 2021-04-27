@@ -13,7 +13,7 @@ class ShowController {
         attributes: ['uid', 'title', 'url_photo'],
         include: [
           { association: 'author', attributes: ['uid', 'username'] },
-          { association: 'category', attributes: ['name', 'slug'] }
+          { association: 'category', attributes: ['name', 'slug', 'icon'] }
         ]
       })
 
@@ -84,7 +84,7 @@ class ShowController {
           attributes: ['uid', 'title', 'url_photo', 'description', 'createdAt'],
           include: [
             { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
-            { association: 'category', attributes: ['name', 'slug'] },
+            { association: 'category', attributes: ['name', 'slug', 'icon'] },
             { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'] }
           ]
         })

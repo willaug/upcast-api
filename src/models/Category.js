@@ -11,7 +11,8 @@ class Category extends Model {
       slug: {
         type: DataTypes.STRING(60),
         unique: true
-      }
+      },
+      icon: DataTypes.STRING(60)
     }, { sequelize, tableName: 'category' })
   }
 
