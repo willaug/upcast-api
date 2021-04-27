@@ -76,7 +76,7 @@ $ npm run start
 ## Rotas
 Para ter maior compatibilidade com diversos aplicativos, todas as respostas possuem **códigos de status HTTP** e **respostas no formato JSON**.
 
-URL base padrão:
+URL base padrão: http://127.0.0.1:3000 ou http://localhost:3000
 
 ### Pesquisa
 - **Obter pesquisa:**
