@@ -83,7 +83,13 @@ class AccountController {
         }
 
         if (email !== undefined) {
-          await User.update({ email }, { where: { uid: userUid } })
+          const emailExist = await User.findOne({ where: { email } })
+
+          if (emailExist === null || emailExist === undefined || emailExist.email === user.email) {
+            await User.update({ email }, { where: { uid: userUid } })
+          } else {
+            return res.status(406).json('E-mail já existente!')
+          }
         }
 
         if (newPassword !== undefined && currentPassword !== undefined) {
