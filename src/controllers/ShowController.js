@@ -247,15 +247,10 @@ class ShowController {
           return res.status(400).json('O programa que você quer seguir não existe.')
         } else {
           const user = await User.findByPk(userUid, {
-            include: { association: 'following', attributes: ['uid'], through: { attributes: [] } }
+            include: { association: 'following', attributes: ['uid'], where: { uid } }
           })
 
-          const userFollowsFilter = following => (following.uid = show.uid)
-          const userFollows = user.following.some(userFollowsFilter)
-
-          if (userFollows) {
-            return res.status(406).json('Você já segue este programa.')
-          } else {
+          if (user === undefined || user === null) {
             const host = process.env.HOST
             const _links = [
               {
@@ -275,8 +270,12 @@ class ShowController {
               }
             ]
 
-            await user.addFollowing(show)
+            const follower = await User.findByPk(userUid)
+
+            await follower.addFollowing(show)
             return res.status(201).json({ response: 'Você começou a seguir este programa.', _links })
+          } else {
+            return res.status(406).json('Você já segue este programa.')
           }
         }
       } catch {
@@ -299,13 +298,10 @@ class ShowController {
           return res.status(400).json('O programa que você quer deixar de seguir não existe.')
         } else {
           const user = await User.findByPk(userUid, {
-            include: { association: 'following', attributes: ['uid'], through: { attributes: [] } }
+            include: { association: 'following', attributes: ['uid'], where: { uid } }
           })
 
-          const userFollowsFilter = following => (following.uid = show.uid)
-          const userFollows = user.following.some(userFollowsFilter)
-
-          if (userFollows) {
+          if (user !== undefined && user !== null) {
             const host = process.env.HOST
             const _links = [
               {
@@ -325,7 +321,8 @@ class ShowController {
               }
             ]
 
-            await user.removeFollowing(show)
+            const follower = await User.findByPk(userUid)
+            await follower.removeFollowing(show)
             return res.status(200).json({ response: 'Você deixou de seguir este programa.', _links })
           } else {
             return res.status(406).json('Você não segue este programa.')
