@@ -167,20 +167,17 @@ class PlaylistController {
       const { uid } = req.params
 
       try {
-        const episodeFound = await Episode.findByPk(episode, {
-          include: { association: 'playlist' }
-        })
+        const episodeFound = await Episode.findByPk(episode)
 
         if (episodeFound === undefined || episodeFound === null) {
           return res.status(400).json('O episódio que você quer adicionar não existe.')
         }
 
-        const playlistItemsFilter = episode => (episode.uid = uid)
-        const playlistItem = episodeFound.playlist.some(playlistItemsFilter)
+        const playlistFound = await Playlist.findByPk(uid, {
+          include: { association: 'episodes', where: { uid: episode } }
+        })
 
-        if (playlistItem) {
-          return res.status(406).json('Você já possui este episódio adicionado em sua playlist.')
-        } else {
+        if (playlistFound === undefined || playlistFound === null) {
           const playlist = await Playlist.findByPk(uid)
           await episodeFound.addPlaylist(playlist)
 
@@ -197,6 +194,8 @@ class PlaylistController {
             response: 'Episódio adicionado na playlist com sucesso.',
             _links
           })
+        } else {
+          return res.status(406).json('Você já possui este episódio adicionado em sua playlist.')
         }
       } catch {
         return res.status(500).json('Desculpe, mas algum erro ocorreu. Que tal tentar novamente?')
