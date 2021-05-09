@@ -86,7 +86,7 @@ class ShowController {
           include: [
             { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
             { association: 'category', attributes: ['name', 'slug', 'icon'] },
-            { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'] }
+            { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'], order: [['createdAt', 'ASC']] }
           ]
         })
 
