@@ -14,7 +14,8 @@ class ShowController {
         include: [
           { association: 'author', attributes: ['uid', 'username'] },
           { association: 'category', attributes: ['name', 'slug', 'icon'] }
-        ]
+        ],
+        order: [['createdAt', 'DESC']]
       })
 
       const host = process.env.HOST
