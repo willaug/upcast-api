@@ -86,8 +86,9 @@ class ShowController {
           include: [
             { association: 'author', attributes: ['uid', 'username', 'url_photo'] },
             { association: 'category', attributes: ['name', 'slug', 'icon'] },
-            { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'], order: [['createdAt', 'ASC']] }
-          ]
+            { association: 'episodes', attributes: ['uid', 'title', 'description', 'duration'] }
+          ],
+          order: [['episodes', 'createdAt', 'DESC']]
         })
 
         if (show === undefined || show === null) {
