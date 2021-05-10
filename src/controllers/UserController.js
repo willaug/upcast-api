@@ -123,7 +123,8 @@ class UserController {
       try {
         const user = await User.findByPk(uid, {
           attributes: [],
-          include: { association: 'userShow', attributes: ['uid', 'title', 'description', 'url_photo'], order: [['createdAt', 'DESC']] }
+          include: { association: 'userShow', attributes: ['uid', 'title', 'description', 'url_photo'] },
+          order: [['userShow', 'createdAt', 'DESC']]
         })
 
         if (user === undefined || user === null) {
@@ -165,7 +166,8 @@ class UserController {
       try {
         const user = await User.findByPk(uid, {
           attributes: [],
-          include: { association: 'userPlaylist', attributes: ['uid', 'title'], order: [['createdAt', 'DESC']] }
+          include: { association: 'userPlaylist', attributes: ['uid', 'title'], order: [['createdAt', 'DESC']] },
+          order: [['userPlaylist', 'createdAt', 'DESC']]
         })
 
         if (user === undefined || user === null) {
